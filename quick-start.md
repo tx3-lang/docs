@@ -65,8 +65,7 @@ my-protocol/
 
 The `trix init` command generates a `main.tx3` file with a very basic example. Open the file in your code editor of choice so that we can inspect the contents together.
 
-TIP: if use VSCode, there's a [Tx3 extensions]() in the marketplace that provides many QoL features like syntax highlighting and error diagnostics.
-
+TIP: if use VSCode, there's a [Tx3 extensions](https://marketplace.visualstudio.com/items/?itemName=TxPipe.tx3-language-support) in the marketplace that provides many QoL features like syntax highlighting and error diagnostics.
 
 ```tx3
 party Sender;
@@ -194,28 +193,42 @@ Run the following command from your CLI:
 trix bindgen
 ```
 
-If things went well, you should see the following new file:
+If things went well, you should see the following new files:
 
 ```
 my-protocol/
 └── gen/
     └── typescript/
-        └── my-protocol.ts
+        ├── my-protocol.ts
+        ├── test.ts
+        ├── package.json
+        └── tsconfig.json
 ```
 
-That new .ts file has the required types and functions to call your protocol from a Typescript code. It works on the backend and also in the browser (with the corresponding bundling).
+That new my-protocol.ts file has the required types and functions to call your protocol from a Typescript code. It works on the backend and also in the browser (with the corresponding bundling).
+The `test.ts` file is a simple test file that you can use to run your protocol.
+The `package.json` and `tsconfig.json` files are standard files for Typescript projects.
 
-```js
-import { protocol, TransferParams } from "./my-protocol";
+Now, we can use the generated bindings to build a transaction using our protocol.
 
-const params: TransferParams {
-  sender: "addr_test1vpgcjapuwl7gfnzhzg6svtj0ph3gxu8kyuadudmf0kzsksqrfugfc",
-  receiver: "addr_test1vpry6n9s987fpnmjqcqt9un35t2rx5t66v4x06k9awdm5hqpma4pp",
-  quantity: 100000000
-};
+First access to the `gen/typescript` folder and install the dependencies:
+```bash
+cd gen/typescript && npm install
+```
+**NOTE**: You can use yarn, pnpm or any other package manager you prefer.
 
-const cbor = protocol.transferTx(params);
-console.log(cbor);
+We need to open `my-protocol.ts` and update the TRP endpoint to point to the correct URL. The default value is `http://localhost:3000/trp`, but if you're using different port or endpoint, make sure to update it.
+
+Finally, we can run the test file to build a transaction using our protocol:
+```bash
+npm run test
+```
+If everything went well, you should see a message like this:
+
+```bash
+{
+  tx: '84a400d9010281825820705e5d956d318264043baf8031e250c14b8703b69947ab2d3212d67210c4b240010182a200581d60464d4cb029fc90cf720600b2f271a2d433517ad32a67eac5eb9bba5c011a05f5e100a200581d605189743c77fc84cc571235062e4f0de28370f6273ade37697d850b40011b0000000248151b86021a0005833d0f00a0f5f6'
+}
 ```
 
 ## What's next
