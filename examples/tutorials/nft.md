@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Creating an NFT
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

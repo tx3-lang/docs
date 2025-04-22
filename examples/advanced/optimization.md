@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Transaction Optimization
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

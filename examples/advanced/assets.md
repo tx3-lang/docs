@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Complex Asset Logic
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

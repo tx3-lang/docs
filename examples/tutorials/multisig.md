@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Multi-Signature Wallet
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

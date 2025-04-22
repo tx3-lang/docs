@@ -50,4 +50,4 @@ We welcome community contributions! If you have an example you'd like to share:
 4. Update this index
 5. Submit a pull request
 
-See our [Contributing Guidelines](../community/contributing) for more details. 
+See our [Contributing Guidelines](./community/contributing) for more details. 

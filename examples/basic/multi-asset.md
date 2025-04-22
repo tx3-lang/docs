@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Multi-Asset Transfer
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

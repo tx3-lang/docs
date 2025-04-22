@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Architecture
 sidebar:
   label: Index
-  hidden: true
 pagefind: false
 ---

@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Staking Protocol
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: VSCode Extension
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

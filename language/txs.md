@@ -248,6 +248,6 @@ tx transfer_multi(
 
 ## Next Steps
 
-- [Expressions](expressions) - Learn about expressions in templates
-- [Parties and Policies](parties-policies) - Working with parties and validation
-- [Chain-Specific Features](../chain-specific) - Blockchain-specific features 
+- [Expressions](./data) - Learn about expressions in templates
+- [Parties and Policies](./parties) - Working with parties and validation
+- [Chain-Specific Features](./chain-specific) - Blockchain-specific features 

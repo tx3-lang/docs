@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Contributing
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

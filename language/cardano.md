@@ -212,6 +212,6 @@ pparams.mainnet = true
 
 ## Next Steps
 
-- [Best Practices](../best-practices) - Chain-specific guidelines
+- [Best Practices](./best-practices) - Chain-specific guidelines
 - [Reference](../reference) - Complete chain-specific reference
 - [Examples](../examples) - Chain-specific examples 

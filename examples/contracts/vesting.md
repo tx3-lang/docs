@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Vesting Contract
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

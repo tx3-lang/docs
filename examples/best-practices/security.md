@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Security Considerations
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Time-Locked Transfer
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

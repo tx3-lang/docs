@@ -1,5 +1,5 @@
 ---
-title: Integrations
+title: Community
 sidebar:
   label: Index
   hidden: true

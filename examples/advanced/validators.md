@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Custom Validators
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Simple Transfer
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

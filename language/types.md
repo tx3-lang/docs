@@ -167,6 +167,6 @@ Tx3 provides several type safety features:
 
 ## Next Steps
 
-- [Transaction Templates](templates) - Learn how to use types in templates
-- [Expressions](expressions) - Understanding type expressions
-- [Chain-Specific Features](../chain-specific) - Chain-specific type handling 
+- [Transaction Templates](./txs) - Learn how to use types in templates
+- [Expressions](./data) - Understanding type expressions
+- [Chain-Specific Features](./chain-specific) - Chain-specific type handling 
