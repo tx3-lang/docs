@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: NFT Marketplace
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

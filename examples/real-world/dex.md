@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: DEX Integration
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

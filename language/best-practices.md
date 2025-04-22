@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Best Practices
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

@@ -235,6 +235,6 @@ tx lock_assets(
 
 ## Next Steps
 
-- [Expressions](expressions) - Learn about asset expressions
-- [Chain-Specific Features](../chain-specific) - Blockchain-specific asset handling
-- [Best Practices](../best-practices) - Asset management guidelines 
+- [Expressions](./data) - Learn about asset expressions
+- [Chain-Specific Features](./chain-specific) - Blockchain-specific asset handling
+- [Best Practices](./best-practices) - Asset management guidelines

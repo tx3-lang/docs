@@ -1,5 +1,5 @@
 ---
-title: Integrations
+title: Tooling
 sidebar:
   label: Index
   hidden: true

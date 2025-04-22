@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Testing Strategies
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

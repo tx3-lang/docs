@@ -278,6 +278,6 @@ tx manage_assets(
 
 ## Next Steps
 
-- [Chain-Specific Features](../chain-specific) - Blockchain-specific expressions
-- [Best Practices](../best-practices) - Expression guidelines
+- [Chain-Specific Features](./chain-specific) - Blockchain-specific expressions
+- [Best Practices](./best-practices) - Expression guidelines
 - [Reference](../reference) - Complete expression reference 

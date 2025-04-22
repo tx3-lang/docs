@@ -1,5 +1,7 @@
 ---
 title: Quick Start Guide
+sidebar:
+    order: 1
 ---
 
 This guide will help you write your first Tx3 program. We'll create a simple transfer program that allows one party to send ADA to another.
@@ -222,8 +224,8 @@ If you made it so far you should have a pretty good idea of what is Tx3 about, b
 
 Check the following section to continue your journey:
 
-- Learn the details of the language in our [Language Guide](./language/).
-- Check a more complex scenario in our [Example Catalog](./examples/).
-- Learn how to run an [Ephemeral Devnet]() to try out your protocol.
-- Learn how to install and use our [VSCode extension]().
-- Understand the [Tx3 Architecture](./architecture/) making this work.
+- Learn the details of the language in our [Language Guide](./language).
+- Check a more complex scenario in our [Example Catalog](./examples).
+- Learn how to run an [Ephemeral Devnet](./testing/devnet) to try out your protocol.
+- Learn how to install and use our [VSCode extension](./tooling/vscode).
+- Understand the [Tx3 Architecture](./architecture) making this work.

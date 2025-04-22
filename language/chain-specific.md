@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Chain-Specific Features
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

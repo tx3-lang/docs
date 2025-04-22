@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Auction Contract
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

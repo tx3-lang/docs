@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Escrow Contract
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---

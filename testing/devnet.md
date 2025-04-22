@@ -1,7 +1,6 @@
 ---
-title: Integrations
+title: Devnet
 sidebar:
-  label: Index
   hidden: true
 pagefind: false
 ---
