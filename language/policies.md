@@ -1,7 +1,7 @@
 ---
 title: Policies
 sidebar:
-    order: 4
+    order: 2
 ---
 
 This section explains the Tx3 syntax for _policies_.

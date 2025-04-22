@@ -1,7 +1,7 @@
 ---
 title: Parties
 sidebar:
-    order: 4
+    order: 1
 ---
 
 This section explains the Tx3 syntax for _parties_.

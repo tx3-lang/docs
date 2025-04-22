@@ -1,7 +1,7 @@
 ---
 title: Data Types
 sidebar:
-    order: 2
+    order: 3
 ---
 
 This guide covers the data types available in Tx3 and how to use them.
@@ -164,9 +164,3 @@ Tx3 provides several type safety features:
    - Custom validation rules
    - Range checks
    - Format validation
-
-## Next Steps
-
-- [Transaction Templates](./txs) - Learn how to use types in templates
-- [Expressions](./data) - Understanding type expressions
-- [Chain-Specific Features](./chain-specific) - Chain-specific type handling 

@@ -1,7 +1,7 @@
 ---
 title: Tx3 Language Guide
 sidebar:
-  label: Index
+  label: Basic Concepts
   order: 0
 ---
 
@@ -19,7 +19,12 @@ The first thing you need to specify in your protocol is the parties involved in 
 
 A party is a way of abstracting the role of someone or something interacting with your protocol. In technical terms, a party is just a placeholder for an on-chain address.
 
-See the [party syntax](./language/parties) section for details on how to specify and use them.
+See the [party syntax](./parties) section for details on how to specify and use them.
+
+{% linkcard
+   title="Party Syntax"
+   href="./parties"
+/%}
 
 ## Transactions
 
@@ -29,7 +34,13 @@ A transaction describes an action that the protocol can execute. A template for 
 
 The body of a transaction template in Tx3 needs to fully describe the structure of an UTxO transaction. This includes things like inputs, outputs and how they connect to each other.
 
-See the [transaction template syntax](./language/txs) for details on how to specify them.
+See the [transaction template syntax](./txs) for details on how to specify them.
+
+
+{% linkcard
+   title="Transaction Syntax"
+   href="./txs"
+/%}
 
 ## Policies
 
@@ -39,7 +50,11 @@ Policies are used by the protocol to describe rules that govern how certain oper
 
 Policies can also act as parties of the protocol. They can be seen as special kind of party with similar properties.
 
-See the [policy syntax](./language/policies) for details on how to specify and use them.
+
+{% linkcard
+   title="Policy Syntax"
+   href="./policies"
+/%}
 
 ## Types
 
@@ -47,7 +62,11 @@ Tx3 has a set of primitive types but it also support the definition of custom ty
 
 Types are used by the compiler to know how to serialize data structures when generating the concrete transactions. Types are also used to catch early errors during the static analysis of the protocol.
 
-See the [types syntax](./language/types) for details on how to specify and use them.
+
+{% linkcard
+   title="Types"
+   href="./types"
+/%}
 
 ## Data Expressions
 
@@ -57,7 +76,11 @@ Data expressions are used whenever a protocol needs to express a value in term o
 
 Datums and redeemers are expressed as data expressions.
 
-See [data expression](./language/data) for details on how to define them.
+
+{% linkcard
+   title="Data Expressions"
+   href="./data"
+/%}
 
 ## Asset Expressions
 
@@ -65,11 +88,16 @@ Tx3 defines specific rules for expressing assets (values).
 
 Operating with quantities of different asset classes using normal data expressions is too verbose. Tx3 introduces specific asset expressions to simplify this tasks. Asset expressions provides basic math operators that can be applied to multi-class asset in a very natural way.
 
-See [asset expressions](./language/assets) for details on how to define them.
+{% linkcard
+   title="Asset Expressions"
+   href="./assets"
+/%}
 
 ## Chain-specific Features
 
 Tx3 includes ad-hoc language artifacts to deal with constructs that are specific to a particular blockchain.
 
-We support the following:
-- [Cardano](./language/cardano)
+{% linkcard
+   title="Cardano Features"
+   href="./cardano"
+/%}

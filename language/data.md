@@ -1,7 +1,7 @@
 ---
 title: Expressions
 sidebar:
-    order: 6
+    order: 4
 ---
 
 This guide covers how to work with expressions in Tx3.
@@ -275,9 +275,3 @@ tx manage_assets(
     }
 }
 ```
-
-## Next Steps
-
-- [Chain-Specific Features](./chain-specific) - Blockchain-specific expressions
-- [Best Practices](./best-practices) - Expression guidelines
-- [Reference](../reference) - Complete expression reference 

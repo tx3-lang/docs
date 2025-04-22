@@ -1,7 +1,7 @@
 ---
 title: Transaction Templates
 sidebar:
-    order: 3
+    order: 2
 ---
 
 This guide covers how to define and use transaction templates in Tx3.
@@ -245,9 +245,3 @@ tx transfer_multi(
     }
 }
 ```
-
-## Next Steps
-
-- [Expressions](./data) - Learn about expressions in templates
-- [Parties and Policies](./parties) - Working with parties and validation
-- [Chain-Specific Features](./chain-specific) - Blockchain-specific features 
