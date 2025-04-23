@@ -4,21 +4,27 @@ sidebar:
     order: 1
 ---
 
+import { Aside } from "@astrojs/starlight/components"
+
+<Aside type="danger" title="Technical Preview #1">
+  Tx3 is not ready for prime time. The current release is a technical preview and should not be used in production environments. The goal of this release is to gather feedback from the community and improve the language and tooling.
+</Aside>
+
 This guide will help you write your first Tx3 program. We'll create a simple transfer program that allows one party to send ADA to another.
 
-We're assuming you have some experience building transactions for UTxO blockchains. If you need a refresher, here's a [good one]().
+We're assuming you have some experience building transactions for UTxO blockchains. If you need a refresher, here's a [good one](https://aiken-lang.org/fundamentals/eutxo).
 
 ## Install the Toolchain
 
 To start working with Tx3 you'll need to install the toolchain. The fastest way to setup your environment is to run `tx3up`, which bundles everything you need in a single install experience:
 
-```bash
+```
 curl --proto '=https' --tlsv1.2 -LsSf https://github.com/tx3-lang/up/releases/download/v0.4.1/tx3up-installer.sh | sh
 ```
 
 Once you've installed `tx3up`, run the following command to execute the install of toolchain:
 
-```bash
+```
 tx3up
 ```
 
@@ -26,7 +32,7 @@ You'll see how the process downloads and install many components. By the end, yo
 
 Run the following command to check the installed versions of each component:
 
-```bash
+```
 tx3up show
 ```
 
@@ -38,13 +44,13 @@ The next thing you need to do is prepare a project workspace. This is a director
 
 Lets create a `my-protocol` folder for our tutorial:
 
-```bash
+```
 mkdir my-protocol && cd my-protocol
 ```
 
 Once you're inside your protocol folder, you need to initialize the basic files using `trix`, the package manager for **tx3**.
 
-```bash
+```
 trix init
 ```
 
@@ -173,13 +179,13 @@ The Tx3 compilers comes with a parser and semantic analysis logic to ensure that
 
 To execute these checks, run the following command from the root of your protocol folder:
 
-```bash
+```
 trix check
 ```
 
 TIP: The VSCode extension comes with a live error diagnostics that use the same logic.
 
-## Building Transactions
+## Typescript Bindings
 
 Ok, here's where things get interesting. Now that we have our protocol interface, we'll be generating concrete transactions just by calling the transaction templates as if they were functions.
 
@@ -189,7 +195,7 @@ Bindings are just glue code that allows you to execute the transaction building 
 
 Run the following command from your CLI:
 
-```bash
+```
 trix bindgen
 ```
 
@@ -205,30 +211,49 @@ my-protocol/
         └── tsconfig.json
 ```
 
-That new my-protocol.ts file has the required types and functions to call your protocol from a Typescript code. It works on the backend and also in the browser (with the corresponding bundling).
-The `test.ts` file is a simple test file that you can use to run your protocol.
-The `package.json` and `tsconfig.json` files are standard files for Typescript projects.
+We won't get into details of how to use the _ts_ code, you can read more about it on the [NodeJS](./bindings/nodejs) bindings reference.
 
-Now, we can use the generated bindings to build a transaction using our protocol.
+## Running a Devnet
 
-First access to the `gen/typescript` folder and install the dependencies:
-```bash
-cd gen/typescript && npm install
+Tx3 tooling includes a mechanism to run a local ephemeral devnet. A devnet is a single-node network that runs inn your machine and mimics the behavior of a real blockchain.
+
+The node will emulate the chain moving forward by generating new blocks every few seconds. Any valid transaction submitted to the network will be automatically added to the following block.
+
+It's _ephemeral_ because any changes to the chain are reset after each restart, providing a nice deterministic workflow for testing transactions during development.
+
+The config for you devnet lives inside your `trix.toml` as a `devnet` profile:
+
+```toml
+[profiles.devnet]
+chain = "CardanoDevnet"
+
+[[profiles.devnet.wallets]]
+name = "alice"
+random_key = true
+initial_balance = 1000000000000000000
+
+[[profiles.devnet.wallets]]
+name = "bob"
+random_key = true
+initial_balance = 1000000000000000000
 ```
-**NOTE**: You can use yarn, pnpm or any other package manager you prefer.
 
-We need to open `my-protocol.ts` and update the TRP endpoint to point to the correct URL. The default value is `http://localhost:3000/trp`, but if you're using different port or endpoint, make sure to update it.
+Notice that the config allows you to define test wallets that can be used as parties in your test transactions. When the devnet starts, these wallets will be configured automatically with the specified initial balances.
 
-Finally, we can run the test file to build a transaction using our protocol:
-```bash
-npm run test
+To start the devnet process, run the following command:
+
 ```
-If everything went well, you should see a message like this:
+trix devnet
+```
 
-```bash
-{
-  tx: '84a400d9010281825820705e5d956d318264043baf8031e250c14b8703b69947ab2d3212d67210c4b240010182a200581d60464d4cb029fc90cf720600b2f271a2d433517ad32a67eac5eb9bba5c011a05f5e100a200581d605189743c77fc84cc571235062e4f0de28370f6273ade37697d850b40011b0000000248151b86021a0005833d0f00a0f5f6'
-}
+Once started, you should start seeing many logs in your temrinal. These logs describe the internal activity of the devnet.
+
+TIP: the devnet mechanism is managed by Dolos a lightweight Cardano Data Node.
+
+Now that your devnet process is running, you can see what's happening by running the embedded chain explorer:
+
+```
+trix explore
 ```
 
 ## What's next
