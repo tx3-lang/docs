@@ -1,5 +1,5 @@
 ---
-title: Transaction Templates
+title: Transactions
 sidebar:
     order: 2
 ---
