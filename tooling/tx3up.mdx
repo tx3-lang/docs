@@ -3,6 +3,7 @@ title: Tx3up
 sidebar:
     order: 1
 ---
+import { Steps } from '@astrojs/starlight/components';
 
 `tx3up` is a command-line tool designed to simplify the installation and management of the `tx3` toolchain. Its main purpose is to provide a convenient way for users to get started with `tx3` and keep their toolchain updated.
 
@@ -121,7 +122,10 @@ tx3up show trix
 
 ## Common Workflows
 
-1.  **Initial Toolchain Setup:**
+<Steps>
+
+1. Initial Toolchain Setup:
+
     Install the default `stable` toolchain and set it as default.
 
     ```bash
@@ -130,7 +134,8 @@ tx3up show trix
 
     This is the simplest way to get started and installs all necessary components.
 
-2.  **Installing a Specific Tool:**
+2. Installing a Specific Tool:
+
     If you only need a particular tool from the toolchain, you can install it individually.
 
     ```bash
@@ -139,7 +144,8 @@ tx3up show trix
 
     Replace `[tool_name]` with the name of the tool you want to install (e.g., `trix`).
 
-3.  **Switching Default Channels:**
+3. Switching Default Channels:
+
     If you have multiple channels installed (e.g., `stable` and `beta`), you can easily switch between them.
 
     ```bash
@@ -148,7 +154,8 @@ tx3up show trix
 
     Replace `[channel_name]` with the name of the channel you want to use as default (e.g., `beta`). This updates the symlink to point to the desired channel's binaries.
 
-4.  **Checking Installed Tool Versions:**
+4. Checking Installed Tool Versions:
+
     To see which versions of the tools are currently installed and their details.
 
     ```bash
@@ -160,3 +167,5 @@ tx3up show trix
     ```bash
     tx3up show [tool_name]
     ```
+
+</Steps>
