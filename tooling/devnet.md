@@ -1,0 +1,61 @@
+---
+title: Devnet
+sidebar:
+    order: 3
+---
+
+This guide explains how to run the Devnet network for testing purposes.
+
+## Overview
+
+Devnet is a custom Cardano test network powered by Dolos. It allows you to define initial wallet funds, execute transactions, etc. To set up the environment, you must run [tx3up](/tx3/tooling/tx3up). It launches Dolos using custom genesis files for the Devnet network.
+
+## Usage
+
+Before running Devnet, use [trix init](/tx3/tooling/trix#trix-init) to initialize a tx3 project. This will generate a default Devnet configuration in the `trix.toml` file, including default wallets.  
+After initializing the project, run [trix devnet](/tx3/tooling/trix#trix-devnet) to start the Devnet.
+
+```sh
+trix devnet
+```
+
+> **Note:** The password for each Devnet wallet is the same as the wallet name defined in `trix.toml` (e.g., if the name is `bob`, the password is `bob`).
+
+## Common Workflows
+
+Here are some common workflows you might follow when you are running devnet:
+
+1. **Initialize a New Project:**
+    ```sh
+    trix init
+    ```
+
+    This will create a `trix.toml` file with a default Devnet configuration and wallets.
+
+2. **Start the Devnet:**
+    ```sh
+    trix devnet
+    ```
+
+    This launches a local Cardano test network powered by Dolos.
+
+3. **(Optional) Run Devnet in the Background:**
+    ```sh
+    trix devnet -b
+    ```
+
+    Use this if you want Devnet to run as a background process.
+
+4. **Explore the Network:**
+
+    Invoke a transaction:
+    ```sh
+    trix invoke
+    ```
+
+    Explore the devnet to monitor the transaction:
+    ```sh
+    trix explore
+    ```
+
+
