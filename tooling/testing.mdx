@@ -36,14 +36,14 @@ Specify the test cases of the tx3 template.
 
 ```toml
 [[transactions]]
-description = "bob sends 30 ada to alice"
+description = "bob sends 2 ada to alice"
 template = "transfer"
-args = { quantity = 30, sender = "bob", receiver = "alice" }
+args = { quantity = 2000000, sender = "bob", receiver = "alice" }
 
 [[transactions]]
-description = "alice sends back 20 ada to bob"
+description = "alice sends back 1 ada to bob"
 template = "transfer"
-args = { quantity = 20, sender = "alice", receiver = "bob" }
+args = { quantity = 10000000, sender = "alice", receiver = "bob" }
 ```
 
 ### Expect
@@ -51,11 +51,11 @@ args = { quantity = 20, sender = "alice", receiver = "bob" }
 Define the expect state after the tx3 function has been executed. This section should specify the expected final values for wallets, outputs, or any other relevant state.
 
 ```toml
-[[expect]]
+[[expects]]
 wallet = "bob"
 lovelace = 9000000
 
-[[expect]]
+[[expects]]
 wallet = "alice"
 lovelace = 6000000
 ```
@@ -88,11 +88,11 @@ description = "alice sends back 20 ada to bob"
 template = "transfer"
 args = { quantity = 20, sender = "alice", receiver = "bob" }
 
-[[expect]]
+[[expects]]
 wallet = "bob"
 lovelace = 9000000
 
-[[expect]]
+[[expects]]
 wallet = "alice"
 lovelace = 6000000
 ```
