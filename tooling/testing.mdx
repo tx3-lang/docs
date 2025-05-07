@@ -79,14 +79,14 @@ policy = "0x"
 amount = 1
 
 [[transactions]]
-description = "bob sends 30 ada to alice"
+description = "bob sends 2 ada to alice"
 template = "transfer"
-args = { quantity = 30, sender = "bob", receiver = "alice" }
+args = { quantity = 2000000, sender = "bob", receiver = "alice" }
 
 [[transactions]]
-description = "alice sends back 20 ada to bob"
+description = "alice sends back 1 ada to bob"
 template = "transfer"
-args = { quantity = 20, sender = "alice", receiver = "bob" }
+args = { quantity = 10000000, sender = "alice", receiver = "bob" }
 
 [[expects]]
 wallet = "bob"
