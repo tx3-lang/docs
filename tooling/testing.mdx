@@ -16,31 +16,34 @@ Tests for tx3 files are written using the `TOML` format. A TOML test file typica
 Define the initial state of wallets involved in the test. You can use descriptive names like `bob` and `alice` for clarity. Each wallet should specify its initial balance or assets.
 
 ```toml
-[[wallets.bob]]
+[[wallets]]
+name = "bob"
 lovelace = 10000000
 
-[[wallets.alice]]
+[[wallets]]
+name = "alice"
 lovelace = 5000000
-assets = { "Token" = 100 }
+
+[[wallets.assets]]
+name = "Token"
+policy = "0x"
+amount = 1
 ```
 
-### Function
+### Transaction
 
-Specify the name of the tx3 function that will be executed for this test case.
-
-```toml
-function = "transferTx"
-```
-
-### Inputs
-
-Specify the inputs that the tx3 function under test expects. These inputs should match the parameters defined in your tx3 code.
+Specify the test cases of the tx3 template.
 
 ```toml
-[inputs]
-amount = 1000000
-sender = "bob"
-receiver = "alice"
+[[transactions]]
+description = "bob sends 30 ada to alice"
+template = "transfer"
+args = { quantity = 30, sender = "bob", receiver = "alice" }
+
+[[transactions]]
+description = "alice sends back 20 ada to bob"
+template = "transfer"
+args = { quantity = 20, sender = "alice", receiver = "bob" }
 ```
 
 ### Expect
@@ -48,12 +51,13 @@ receiver = "alice"
 Define the expect state after the tx3 function has been executed. This section should specify the expected final values for wallets, outputs, or any other relevant state.
 
 ```toml
-[[expect.bob]]
+[[expect]]
+wallet = "bob"
 lovelace = 9000000
 
-[[expect.alice]]
+[[expect]]
+wallet = "alice"
 lovelace = 6000000
-assets = { "Token" = 100 }
 ```
 
 ## Example
@@ -61,27 +65,37 @@ assets = { "Token" = 100 }
 Here is a complete example of a TOML test file:
 
 ```toml
-[[wallets.bob]]
+[[wallets]]
+name = "bob"
 lovelace = 10000000
 
-[[wallets.alice]]
+[[wallets]]
+name = "alice"
 lovelace = 5000000
-assets = { "Token" = 100 }
 
-function = "transferTx"
+[[wallets.assets]]
+name = "Token"
+policy = "0x"
+amount = 1
 
-[inputs]
-amount = 1000000
-sender = "bob"
-receiver = "alice"
+[[transactions]]
+description = "bob sends 30 ada to alice"
+template = "transfer"
+args = { quantity = 30, sender = "bob", receiver = "alice" }
 
-[[expect.bob]]
+[[transactions]]
+description = "alice sends back 20 ada to bob"
+template = "transfer"
+args = { quantity = 20, sender = "alice", receiver = "bob" }
+
+[[expect]]
+wallet = "bob"
 lovelace = 9000000
 
-[[expect.alice]]
+[[expect]]
+wallet = "alice"
 lovelace = 6000000
-assets = { "Token" = 100 }
 ```
 
-This test file defines two wallets, `bob` and `alice`, with initial lovelace amounts. It specifies inputs for a `transferTx` function and defines the expected lovelace amounts for 
-both wallets after the transfer.
+This test file defines two wallets, `bob` and `alice`, with initial lovelace amounts. It specifies the test cases for a `transfer` template and defines the expected lovelace amounts for 
+both wallets after the test cases executed.
