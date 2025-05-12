@@ -18,11 +18,11 @@ Define the initial state of wallets involved in the test. You can use descriptiv
 ```toml
 [[wallets]]
 name = "bob"
-lovelace = 10000000
+balance = 10000000
 
 [[wallets]]
 name = "alice"
-lovelace = 5000000
+balance = 5000000
 
 [[wallets.assets]]
 name = "Token"
@@ -51,13 +51,13 @@ args = { quantity = 10000000, sender = "alice", receiver = "bob" }
 Define the expect state after the tx3 function has been executed. This section should specify the expected final values for wallets, outputs, or any other relevant state.
 
 ```toml
-[[expects]]
+[[expect]]
 wallet = "bob"
-lovelace = 9000000
+balance = 9000000
 
-[[expects]]
+[[expect]]
 wallet = "alice"
-lovelace = 6000000
+balance = 6000000
 ```
 
 ## Example
@@ -67,11 +67,11 @@ Here is a complete example of a TOML test file:
 ```toml
 [[wallets]]
 name = "bob"
-lovelace = 10000000
+balance = 10000000
 
 [[wallets]]
 name = "alice"
-lovelace = 5000000
+balance = 5000000
 
 [[wallets.assets]]
 name = "Token"
@@ -88,14 +88,14 @@ description = "alice sends back 1 ada to bob"
 template = "transfer"
 args = { quantity = 10000000, sender = "alice", receiver = "bob" }
 
-[[expects]]
+[[expect]]
 wallet = "bob"
-lovelace = 9000000
+balance = 9000000
 
-[[expects]]
+[[expect]]
 wallet = "alice"
-lovelace = 6000000
+balance = 6000000
 ```
 
-This test file defines two wallets, `bob` and `alice`, with initial lovelace amounts. It specifies the test cases for a `transfer` template and defines the expected lovelace amounts for 
+This test file defines two wallets, `bob` and `alice`, with initial balance amounts. It specifies the test cases for a `transfer` template and defines the expected balance amounts for 
 both wallets after the test cases executed.
