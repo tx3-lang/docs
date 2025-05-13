@@ -4,6 +4,8 @@ sidebar:
     order: 5
 ---
 
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+
 The testing tool is designed to assist developers in writing tests and validating their tx3 files.
 It provides a structured way to define test cases and verify the expected outcomes of executing tx3 code. 
 
@@ -24,13 +26,23 @@ balance = 10000000
 name = "alice"
 balance = 5000000
 
+# Not implemented yet
 [[wallets.assets]]
 name = "Token"
 policy = "0x"
 amount = 1
 ```
 
-### Transaction
+* **`name`**  
+  A human-readable wallet name.  
+  **example**: `"bob"`
+
+* **`balance`**  
+  The initial balance that the wallet will contain before the test starts.  
+  **type**: `number`  
+  **example**: `10000000`
+
+### Transactions
 
 Specify the test cases of the tx3 template.
 
@@ -38,13 +50,38 @@ Specify the test cases of the tx3 template.
 [[transactions]]
 description = "bob sends 2 ada to alice"
 template = "transfer"
-args = { quantity = 2000000, sender = "bob", receiver = "alice" }
+signer = "bob"
+wait_block = true
+args = { quantity = 2000000, sender = "@bob", receiver = "@alice" }
 
 [[transactions]]
 description = "alice sends back 1 ada to bob"
 template = "transfer"
-args = { quantity = 10000000, sender = "alice", receiver = "bob" }
+signer = "bob"
+args = { quantity = 10000000, sender = "@alice", receiver = "@bob" }
 ```
+
+* **`description`**  
+  A human-readable explanation of the transaction.  
+  **example**: `"bob sends 2 coins to alice"`
+
+* **`template`**  
+  The name of the predefined transaction template to use from tx3 file.  
+  **example**: `"transfer"`
+
+* **`signer`**  
+  The wallet that will sign the transaction. This should match one of the defined wallets.  
+  **example**: `"bob"`
+
+* **`wait_block`**  
+  Indicates whether to wait for a block confirmation before proceeding.  
+  **type**: `boolean`  
+  **example**: `true`
+
+* **`args`**  
+  Arguments required by the `template`. These are passed as key-value pairs. Arguments that start with `@` are mapped to wallet address, so `@bob` will be mapped to `addr_...`.  
+  **type**: `object`  
+  **example**: `{ quantity = 2000000, sender = "@alice", receiver = "@bob" }`
 
 ### Expect
 
@@ -52,19 +89,45 @@ Define the expect state after the tx3 function has been executed. This section s
 
 ```toml
 [[expect]]
+type = "Balance"
 wallet = "bob"
-balance = 9000000
+amount = 9638899
 
 [[expect]]
+type = "Balance"
 wallet = "alice"
-balance = 6000000
+amount = { target = 4638899, threshold = 300000 } 
 ```
+
+* **`type`**  
+  The type of expect, each type will validate the output different. As far, only `Balance` is implemented.  
+  **type**: `string`  
+  **example**: `Balance`
+
+<Tabs>
+  <TabItem label="Balance">
+
+* **`wallet`**  
+  The name of the wallet that must be validated.  
+  **type**: `string`  
+  **example**: `bob`
+
+* **`amount`**  
+  The amount validation, it can be absolute or aproximated. Furthermore, `target` and `threshold` are a way to validate aproximated the final balance.  
+  **type**: `number | object`  
+  **example**: `9638899 | { target = 4638899, threshold = 300000 }`  
+
+  </TabItem>
+</Tabs>
+
 
 ## Example
 
-Here is a complete example of a TOML test file:
+Here is a complete [example](https://github.com/tx3-lang/trix/tree/main/examples/test) of a TOML test file:
 
 ```toml
+file="./main.tx3"
+
 [[wallets]]
 name = "bob"
 balance = 10000000
@@ -73,28 +136,28 @@ balance = 10000000
 name = "alice"
 balance = 5000000
 
-[[wallets.assets]]
-name = "Token"
-policy = "0x"
-amount = 1
-
 [[transactions]]
 description = "bob sends 2 ada to alice"
 template = "transfer"
-args = { quantity = 2000000, sender = "bob", receiver = "alice" }
+signer = "bob"
+wait_block = true
+args = { quantity = 2000000, sender = "@bob", receiver = "@alice" }
 
 [[transactions]]
-description = "alice sends back 1 ada to bob"
+description = "alice sends 2 ada to bob"
 template = "transfer"
-args = { quantity = 10000000, sender = "alice", receiver = "bob" }
+signer = "alice"
+args = { quantity = 2000000, sender = "@alice", receiver = "@bob" }
 
 [[expect]]
+type = "Balance"
 wallet = "bob"
-balance = 9000000
+amount = 9638899
 
 [[expect]]
+type = "Balance"
 wallet = "alice"
-balance = 6000000
+amount = { target = 4638899, threshold = 300000 } 
 ```
 
 This test file defines two wallets, `bob` and `alice`, with initial balance amounts. It specifies the test cases for a `transfer` template and defines the expected balance amounts for 
