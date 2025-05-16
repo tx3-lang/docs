@@ -4,9 +4,18 @@ sidebar:
     order: 2
 ---
 
-This guide covers how to define and use transaction templates in Tx3.
+Transactions are the core of blockchain interactions, and in Tx3, they're defined as templates that generate complete, valid blockchain transactions based on parameters.
 
-## Overview
+# What Makes Tx3 Different
+Unlike most blockchain development approaches where transactions are constructed programmatically through multiple API calls, Tx3 uses a declarative approach where:
+
+- The entire transaction structure is visible in one place
+- Input selection is constraint-based rather than explicit
+- Transaction balancing is handled automatically
+- Asset operations are type-checked at compile time
+- Parameters provide customization without sacrificing readability
+
+# Overview
 
 Transaction templates are the core building blocks of Tx3 programs. They define patterns for constructing valid transactions by specifying:
 
@@ -15,25 +24,42 @@ Transaction templates are the core building blocks of Tx3 programs. They define 
 - Validation conditions
 - Parameter bindings
 
-## Basic Structure
+# Transaction Template Structure
+A Tx3 transaction template has this general form
 
 ```tx3
 tx name(param1: Type1, param2: Type2) {
+    // Optional reference block
+    reference name {...}
+
     // Input blocks
     input name { ... }
-    
+    input name2* { ... }
+
+    // Optional collateral block
+    collateral { ... }
+
     // Output blocks
     output { ... }
-    
+
     // Optional mint/burn blocks
     mint { ... }
     burn { ... }
-    
+
     // Optional chain-specific blocks
     cardano::stake_delegation { ... }
 }
 ```
 
+## Reference block
+Reference blocks define what is known as the *reference inputs* of a transaction.
+This means we can reference a set of UTxOs that will be read by a validator without consuming it.
+
+```tx3
+reference name  {
+  ref: DataExpr // Required: Reference to the specific UTxO
+}
+```
 ## Input Blocks
 
 Input blocks define the UTxOs that must be consumed by the transaction.
@@ -68,7 +94,7 @@ input locked {
     redeemer: UnlockData { timestamp },
 }
 
-// Specific UTxO 
+// Specific UTxO
 input specific {
     ref: 0xABCDEF1234#0,
     from: Owner,
@@ -167,7 +193,7 @@ tx transfer(
         from: Sender,
         min_amount: Ada(amount),
     }
-    
+
     output {
         to: recipient,
         amount: Ada(amount),
@@ -185,12 +211,12 @@ tx transfer(amount: Int) {
         from: Sender,
         min_amount: Ada(amount),
     }
-    
+
     output {
         to: Receiver,
         amount: Ada(amount),
     }
-    
+
     output {
         to: Sender,
         amount: source - Ada(amount) - fees,
@@ -205,7 +231,7 @@ tx lock(until: Int) {
         from: Owner,
         min_amount: Ada(amount),
     }
-    
+
     output locked {
         to: TimeLock,
         amount: Ada(amount),
@@ -215,7 +241,7 @@ tx lock(until: Int) {
             beneficiary: Beneficiary,
         }
     }
-    
+
     output {
         to: Owner,
         amount: source - Ada(amount) - fees,
@@ -233,12 +259,12 @@ tx transfer_multi(
         from: Sender,
         min_amount: Ada(ada_amount) + MyToken(token_amount),
     }
-    
+
     output {
         to: Receiver,
         amount: Ada(ada_amount) + MyToken(token_amount),
     }
-    
+
     output {
         to: Sender,
         amount: source - (Ada(ada_amount) + MyToken(token_amount)) - fees,
