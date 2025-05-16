@@ -4,55 +4,139 @@ sidebar:
     order: 1
 ---
 
-This section explains the Tx3 syntax for _parties_.
+Parties are one of the foundational concepts in Tx3. They represent the various actors that interact with your blockchain protocol, such as users, contracts, or services.
 
-A party is a way of abstracting the role of someone or something interacting with your protocol. In technical terms, a party is just a placeholder for an on-chain address.
+## Why Parties Matter
 
-# Definition
+In UTxO blockchains like Cardano, addresses control UTxOs. Rather than hardcoding addresses, Tx3 uses the concept of parties to:
 
-To define a name party use the following syntax:
+1. **Abstract implementation details** - Separating roles from specific addresses
+2. **Improve readability** - Making transactions easier to understand
+3. **Enable configuration** - Allowing the same protocol to work with different addresses
+4. **Support parameterization** - Letting transactions work with dynamic parties
+
+## Party Definition Syntax
+
+The basic syntax for defining a party is:
 
 ```tx3
 party {Name};
 ```
 
--  `Name`: an alphanumeric string to identify the party within the protocol.
+Where `Name` is an alphanumeric identifier (starting with a letter) that represents this party throughout your protocol.
 
+### Simple Party Examples
 
-## Examples
-
-A basic party definition with name `Sender`:
-
-```
-party Sender;
-```
-
-Multiple party definitions in the same protocol:
-
-```
-party Sender;
-party Receiver;
-party Escrow;
+```tx3
+// Basic parties representing different roles
+party User;           // End user of the protocol
+party Treasury;       // Treasury that holds protocol funds
+party Oracle;         // Data provider
 ```
 
 # Usage
 
-Parties can be used to specify the owner for an input UTxO:
+Parties define the "who" in transactions - who provides inputs and who receives outputs.
+
+## Input Sources
+
+Parties specify who controls the UTxOs that will be consumed:
 
 ```tx3
-tx transfer(amount: Int) {
-    input source {
-        from: Sender,
+party User;
+// User is providing Ada as input
+tx deposit(amount: Int) {
+    // UTxO controlled by the User party
+    input user_tokens {
+        from: User,
+        min_amount: Ada(amount) + fees,
     }
+
+    // Rest of transaction...
 }
 ```
 
-Parties can be used to specify the target for an output UTxO:
+## Output Recipients
+
+Parties specify who will receive newly created UTxOs:
 
 ```tx3
-tx transfer(amount: Int) {
+party Treasury;
+// Treasury is receiving protocol fees
+poner adentro de una tx
+tx fund() {
+  // Rest of transaction...
+  output {
+    to: Treasury,        // UTxO will be sent to Treasury's address (which can be a script address as well!)
+    amount: Ada(fee_amount),
+  }
+}
+```
+
+
+### Complex Party Relationships
+
+Real-world protocols typically involve multiple parties with different roles:
+
+```tx3
+party EscrowContract;
+party Buyer;
+party EscrowProvider;
+
+tx escrow_payment(
+    seller_item_id: Bytes,
+    price: Int,
+    escrow_fee: Int,
+) {
+    input payment {
+        from: Buyer,
+        min_amount: Ada(price + escrow_fee) + fees,
+    }
+
+    output locked_payment {
+        to: EscrowContract,
+        amount: Ada(price),
+        datum: EscrowState {
+            buyer: Buyer,
+            seller: Seller,
+            item_id: seller_item_id,
+            amount: price,
+        }
+    }
+
     output {
-        to: Receiver,
+        to: EscrowProvider,
+        amount: Ada(escrow_fee),
+    }
+
+    output {
+        to: Buyer,
+        amount: payment - escrow_fee - Ada(price) - fees,
     }
 }
 ```
+
+## Party Properties and Methods
+Parties have properties and methods that can be accessed in transactions:
+
+```tx3
+// Access party's address directly
+User;
+
+// In Cardano, get party's stake credential
+Treasury.stake_credential;
+
+// In Cardano, get party's payment credential
+Treasury.payment_credential;
+```
+
+
+## Best Practices for Using Parties
+
+1. **Use descriptive names** - Names like `LiquidityProvider` are clearer than `Party1`
+
+2. **Consistent roles** - Each party should have a well-defined role in the protocol
+
+3. **Security considerations** - Be clear about which parties need to authorize actions
+
+4. **Documentation** - Document the responsibilities and expectations for each party

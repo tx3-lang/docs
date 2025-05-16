@@ -19,7 +19,7 @@ Another common term for protocol is a dApp, but we prefer to call them protocols
 
 The first thing you need to specify in your protocol is the parties involved in the interactions.
 
-A party is a way of abstracting the role of someone or something interacting with your protocol. In technical terms, a party is just a placeholder for an on-chain address.
+A party is an abstraction for someone or something interacting with your protocol. In technical terms, a party is just a placeholder for an on-chain address.
 
 <LinkCard title="Party Syntax" href="language/parties" description="Details on how to specify and use Parties" />
 
@@ -35,11 +35,11 @@ The body of a transaction template in Tx3 needs to fully describe the structure 
 
 ## Policies
 
-Policies represent specific logic involved with a protocol. These are usually scripts on-chain that validate actions. 
+Policies represent specific logic involved with a protocol. These are usually scripts on-chain that validate actions.
 
 Policies are used by the protocol to describe rules that govern how certain operations work. Operations like spending UTxOs, minting assets, etc.
 
-Policies can also act as parties of the protocol. They can be seen as special kind of party with similar properties.
+Policies can also act as a special kind of party of the protocol.
 
 <LinkCard title="Policy Syntax" href="language/policies" description="Details on how to specify and use Policies" />
 
@@ -58,13 +58,13 @@ Tx3 supports data expression to describe and operate with data structures.
 
 Data expressions are used whenever a protocol needs to express a value in term of parameters, the result of a computation or by constructing specific types of data.
 
-Datums and redeemers are expressed as data expressions.
+The contents of datums and redeemers are expressed as data expressions.
 
 <LinkCard title="Data Expressions" href="language/data" description="Details on how to specify and use Data Expressions" />
 
 ## Asset Expressions
 
-Tx3 defines specific rules for expressing assets (values).
+Tx3 defines specific rules for expressing assets in UTxO's value.
 
 Operating with quantities of different asset classes using normal data expressions is too verbose. Tx3 introduces specific asset expressions to simplify this tasks. Asset expressions provides basic math operators that can be applied to multi-class asset in a very natural way.
 
@@ -75,4 +75,3 @@ Operating with quantities of different asset classes using normal data expressio
 Tx3 includes ad-hoc language artifacts to deal with constructs that are specific to a particular blockchain.
 
 <LinkCard title="Cardano Features" href="language/cardano" description="Details on how to specify and use Cardano-specific features" />
-
