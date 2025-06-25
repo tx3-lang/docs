@@ -63,7 +63,6 @@ Parties specify who will receive newly created UTxOs:
 ```tx3
 party Treasury;
 // Treasury is receiving protocol fees
-poner adentro de una tx
 tx fund() {
   // Rest of transaction...
   output {
@@ -82,6 +81,7 @@ Real-world protocols typically involve multiple parties with different roles:
 party EscrowContract;
 party Buyer;
 party EscrowProvider;
+party Seller;
 
 tx escrow_payment(
     seller_item_id: Bytes,
@@ -111,7 +111,7 @@ tx escrow_payment(
 
     output {
         to: Buyer,
-        amount: payment - escrow_fee - Ada(price) - fees,
+        amount: payment - Ada(price + escrow_fee) - fees,
     }
 }
 ```
