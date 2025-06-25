@@ -33,13 +33,22 @@ asset MyToken = "policy_id" "asset_name";
 MyToken(100)
 ```
 
+### AnyAsset Catch-All Constructor
+```tx3
+// Define custom asset and amount
+AnyAsset("policy_id", "asset_name", <amount_int>)
+
+// Define NFT
+AnyAsset("policy_id", "asset_name", 1)
+```
+
 ### Asset Bundles
 ```tx3
 // Combine multiple assets
 Ada(1000000) + MyToken(50)
 
 // Complex bundles
-Ada(1000000) + MyToken(50) + NFT("policy_id", "asset_name")
+Ada(1000000) + MyToken(50) + AnyAsset("policy_id", "asset_name", 1)
 ```
 
 ## Asset Expressions
@@ -143,12 +152,30 @@ tx transfer_nft(
 ) {
     input source {
         from: Owner,
-        min_amount: NFT(policy_id, asset_name),
+        min_amount: AnyAsset(policy_id, asset_name, 1),
     }
     
     output {
         to: Recipient,
-        amount: NFT(policy_id, asset_name),
+        amount: AnyAsset(policy_id, asset_name, 1),
+    }
+}
+
+### FT Transfer
+```tx3
+tx transfer_nft(
+    policy_id: Bytes,
+    asset_name: Bytes,
+    amount: Int
+) {
+    input source {
+        from: Owner,
+        min_amount: AnyAsset(policy_id, asset_name, amount),
+    }
+    
+    output {
+        to: Recipient,
+        amount: AnyAsset(policy_id, asset_name, amount),
     }
 }
 ```
