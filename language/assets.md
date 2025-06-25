@@ -1,5 +1,5 @@
 ---
-title: Assets Expressions
+title: Asset Expressions
 sidebar:
     order: 5
 ---
