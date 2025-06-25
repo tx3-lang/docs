@@ -11,7 +11,7 @@ party Receiver;
 tx send_ada(quantity: Int) {
     input source {
         from: Sender,
-        min_amount: Ada(quantity),
+        min_amount: Ada(quantity) + fees,
     }
     
     output {
