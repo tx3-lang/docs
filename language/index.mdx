@@ -11,7 +11,7 @@ This guide provides a comprehensive overview of the Tx3 language, its syntax, an
 
 ## Protocol
 
-A Tx3 file describes an UTxO protocol. By protocol we mean the set of conventions required to construct the transactions that allows a user to interact with the blockchain to fulfill a goal.
+A Tx3 file describes a UTxO protocol. By protocol we mean the set of conventions required to construct the transactions that allows a user to interact with the blockchain to fulfill a goal.
 
 Another common term for protocol is a dApp, but we prefer to call them protocols to decouple it from relationship to UI artifacts. Tx3 does NOT provide a way to build frontends, but it does simplify a lot of the boilerplate that these UIs need to integrate blockchain operations.
 
@@ -35,7 +35,7 @@ The body of a transaction template in Tx3 needs to fully describe the structure 
 
 ## Policies
 
-Policies represent specific logic involved with a protocol. These are usually scripts on-chain that validate actions.
+Policies represent the specific logic involved with a protocol. These are usually scripts on-chain that validate actions.
 
 Policies are used by the protocol to describe rules that govern how certain operations work. Operations like spending UTxOs, minting assets, etc.
 
@@ -66,7 +66,7 @@ The contents of datums and redeemers are expressed as data expressions.
 
 Tx3 defines specific rules for expressing assets in UTxO's value.
 
-Operating with quantities of different asset classes using normal data expressions is too verbose. Tx3 introduces specific asset expressions to simplify this tasks. Asset expressions provides basic math operators that can be applied to multi-class asset in a very natural way.
+Operating with quantities of different asset classes using normal data expressions is too verbose. Tx3 introduces specific asset expressions to simplify this task. Asset expressions provide basic math operators that can be applied to multi-class assets in a very natural way.
 
 <LinkCard title="Asset Expressions" href="language/assets" description="Details on how to specify and use Asset Expressions" />
 

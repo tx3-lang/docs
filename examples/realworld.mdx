@@ -15,7 +15,7 @@ tx purchase_ticket(
 ) {
     input source {
         from: Participant,
-        min_amount: Ada(ticket_price),
+        min_amount: Ada(ticket_price) + fees,
     }
     
     output ticket_payment {

@@ -209,7 +209,7 @@ tx transfer(
 tx transfer(amount: Int) {
     input source {
         from: Sender,
-        min_amount: Ada(amount),
+        min_amount: Ada(amount) + fees,
     }
 
     output {
@@ -229,7 +229,7 @@ tx transfer(amount: Int) {
 tx lock(until: Int) {
     input source {
         from: Owner,
-        min_amount: Ada(amount),
+        min_amount: Ada(amount) + fees,
     }
 
     output locked {
@@ -257,7 +257,7 @@ tx transfer_multi(
 ) {
     input source {
         from: Sender,
-        min_amount: Ada(ada_amount) + MyToken(token_amount),
+        min_amount: Ada(ada_amount) + MyToken(token_amount) + fees,
     }
 
     output {

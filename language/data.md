@@ -90,7 +90,7 @@ Ada(1000000)
 MyToken(100)
 
 // NFT constructor
-NFT(policy_id, asset_name)
+AnyAsset(policy_id, asset_name, 1)
 ```
 
 ### Asset Operations

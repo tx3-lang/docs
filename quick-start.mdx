@@ -70,7 +70,7 @@ my-protocol/
 
 The `trix init` command generates a `main.tx3` file with a very basic example. Open the file in your code editor of choice so that we can inspect the contents together.
 
-TIP: if use VSCode, there's a [Tx3 extensions](https://marketplace.visualstudio.com/items/?itemName=TxPipe.tx3-language-support) in the marketplace that provides many QoL features like syntax highlighting and error diagnostics.
+TIP: if use VSCode, there's a [Tx3 extension](https://marketplace.visualstudio.com/items/?itemName=TxPipe.tx3-language-support) in the marketplace that provides many QoL features like syntax highlighting and error diagnostics.
 
 ```tx3
 party Sender;
@@ -96,7 +96,7 @@ tx transfer(
 }
 ```
 
-The above code represent a basic protocol with only one operation that transfers ADA from one party o another. 
+The above code represent a basic protocol with only one operation that transfers ADA from one party to another. 
 
 Lets break it down to understand each part.
 
@@ -121,7 +121,7 @@ tx transfer(quantity: Int)
 
 This snippet defines a transaction template named `transfer`. You can think of these templates as functions that your code will call to build concrete transactions.
 
-This template takes a single parameter name `quantity` of type `Int`. In this particular scenario, this params determines how much ADA to transfer.
+This template takes a single parameter name `quantity` of type `Int`. In this particular scenario, this param determines how much ADA to transfer.
 
 Inside this template you'll need to define how to connect inputs and outputs to fully describe your UTxO transaction.
 
@@ -174,7 +174,7 @@ The `fees` keyword is a special placeholder that will be replaced by the compute
 
 The above code should be work out-of-the-box, but if you are building your own protocol you might want to check that everything compiles correctly.
 
-The Tx3 compilers comes with a parser and semantic analysis logic to ensure that there aren't any errors in your code.
+The Tx3 compiler comes with a parser and semantic analysis logic to ensure that there aren't any errors in your code.
 
 To execute these checks, run the following command from the root of your protocol folder:
 
@@ -214,7 +214,7 @@ We won't get into details of how to use the _ts_ code, you can read more about i
 
 ## Running a Devnet
 
-Tx3 tooling includes a mechanism to run a local ephemeral devnet. A devnet is a single-node network that runs inn your machine and mimics the behavior of a real blockchain.
+Tx3 tooling includes a mechanism to run a local ephemeral devnet. A devnet is a single-node network that runs on your machine and mimics the behavior of a real blockchain.
 
 The node will emulate the chain moving forward by generating new blocks every few seconds. Any valid transaction submitted to the network will be automatically added to the following block.
 
@@ -247,7 +247,7 @@ trix devnet
 
 Once started, you should start seeing many logs in your temrinal. These logs describe the internal activity of the devnet.
 
-TIP: the devnet mechanism is managed by Dolos a lightweight Cardano Data Node.
+TIP: the devnet mechanism is managed by Dolos, a lightweight Cardano Data Node.
 
 Now that your devnet process is running, you can see what's happening by running the embedded chain explorer:
 
@@ -257,7 +257,7 @@ trix explore
 
 ## What's next
 
-If you made it so far you should have a pretty good idea of what is Tx3 about, but this just barely scratched the surface.
+If you've made it this far you should have a pretty good idea of what is Tx3 about, but this just barely scratched the surface.
 
 Check the following section to continue your journey:
 

@@ -13,7 +13,7 @@ Policies represent specific logic involved with a protocol. These are usually sc
 To define a named policy use the following syntax:
 
 ```tx3
-policy {Name};
+party {Name};
 ```
 
 -  `Name`: an alphanumeric string to identify a policy within the protocol.

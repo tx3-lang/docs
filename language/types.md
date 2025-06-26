@@ -63,7 +63,7 @@ Lovelace(500000)   // 0.5 ADA
 ### Custom Assets
 ```tx3
 // Asset definition
-asset MyToken = 0xABCDEF123.MYTOKEN;
+asset MyToken = 0xABCDEF123."MYTOKEN";
 
 // Asset literals
 MyToken(100)
