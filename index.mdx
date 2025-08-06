@@ -7,10 +7,6 @@ sidebar:
 
 import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
 
-<Aside type="danger" title="Technical Preview #1">
-  Tx3 is not ready for prime time. The current release is a technical preview and should not be used in production environments. The goal of this release is to gather feedback from the community and improve the language and tooling.
-</Aside>
-
 Tx3 is a domain-specific language for describing protocols that run on UTxO-based blockchains, with a particular focus on Cardano.
 
 ## Rationale
@@ -37,7 +33,7 @@ Tx3 is meant to complement existing languages and tools, not replace them. It po
 
 ## The Language
 
-Tx3 is a purely functional language designed specifically for describing transaction templates in UTxO-based blockchains. Rather than trying to be a general-purpose language, it focuses exclusively on this narrow but important domain, allowing it to provide powerful and precise tools for working with blockchain transactions.
+Tx3 is a DSL (Domain Specific Language) for describing the interface of UTxO blockchain protocols using a declarative style and basic functional expressions. It allows you to describe user intents in the form of transaction templates that abstract away the transaction building process as high-level function calls.
 
 The language's narrow focus allows it to be highly opinionated and tightly integrated with core UTxO blockchain concepts. Instead of abstracting away blockchain-specific details, Tx3 embraces them - concepts fundamental to UTxO blockchains like inputs, outputs, datums, and redeemers are treated as first-class citizens in the language. This deep integration enables more natural and expressive ways to work with these concepts.
 
@@ -48,6 +44,7 @@ A key concept in Tx3 is the distinction between concrete transactions and transa
 If you're interested in learning Tx3, we have a comprehensive guide that covers all the basics you need to get started.
 
 <CardGrid>
+  <LinkCard title="Installation" href="/tx3/installation">Instructions for installing the Tx3 toolchain</LinkCard>
   <LinkCard title="Quick Start" href="/tx3/quick-start">Quick start guide and basic concepts</LinkCard>
   <LinkCard title="The Tx3 Language" href="/tx3/language">Detailed language documentation</LinkCard>
   <LinkCard title="Example Catalog" href="/tx3/examples">Code examples for different use-cases</LinkCard>
