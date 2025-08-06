@@ -1,42 +1,19 @@
 ---
-title: Quick Start Guide
+title: Quick Start
 sidebar:
-    order: 1
+    order: 3
 ---
 
-import { Aside } from "@astrojs/starlight/components"
-
-<Aside type="danger" title="Technical Preview #1">
-  Tx3 is not ready for prime time. The current release is a technical preview and should not be used in production environments. The goal of this release is to gather feedback from the community and improve the language and tooling.
-</Aside>
+import { Aside, TabItem, Tabs } from "@astrojs/starlight/components"
 
 This guide will help you write your first Tx3 program. We'll create a simple transfer program that allows one party to send ADA to another.
 
 We're assuming you have some experience building transactions for UTxO blockchains. If you need a refresher, here's a [good one](https://aiken-lang.org/fundamentals/eutxo).
 
-## Install the Toolchain
+<Aside type="note">
+Make sure you have followed the **[installation steps](installation)** before you attempt to follow this guideline.
+</Aside>
 
-To start working with Tx3 you'll need to install the toolchain. The fastest way to setup your environment is to run `tx3up`, which bundles everything you need in a single install experience:
-
-```
-curl --proto '=https' --tlsv1.2 -LsSf https://github.com/tx3-lang/up/releases/latest/download/tx3up-installer.sh | sh
-```
-
-Once you've installed `tx3up`, run the following command to execute the install of toolchain:
-
-```
-tx3up
-```
-
-You'll see how the process downloads and install many components. By the end, you should have everything you need.
-
-Run the following command to check the installed versions of each component:
-
-```
-tx3up show
-```
-
-The installer has a lot of advanced features, check our [tx3up guide](/tools/tx3up) if you want to learn more.
 
 ## Initialize a new Project
 
@@ -61,6 +38,7 @@ By then end, your protocol folder should look like:
 ```
 my-protocol/
 ├── main.tx3
+├── devnet.toml
 └── trix.toml
 ```
 
@@ -184,34 +162,6 @@ trix check
 
 TIP: The VSCode extension comes with a live error diagnostics that use the same logic.
 
-## Typescript Bindings
-
-Ok, here's where things get interesting. Now that we have our protocol interface, we'll be generating concrete transactions just by calling the transaction templates as if they were functions.
-
-Remember that we asked you to choose the "Typescript" option? We need it for the next step.
-
-Bindings are just glue code that allows you to execute the transaction building logic by calling language-specific functions that represent the templates in your protocol.
-
-Run the following command from your CLI:
-
-```
-trix bindgen
-```
-
-If things went well, you should see the following new files:
-
-```
-my-protocol/
-└── gen/
-    └── typescript/
-        ├── my-protocol.ts
-        ├── test.ts
-        ├── package.json
-        └── tsconfig.json
-```
-
-We won't get into details of how to use the _ts_ code, you can read more about it on the [NodeJS](./bindings/nodejs) bindings reference.
-
 ## Running a Devnet
 
 Tx3 tooling includes a mechanism to run a local ephemeral devnet. A devnet is a single-node network that runs on your machine and mimics the behavior of a real blockchain.
@@ -220,24 +170,21 @@ The node will emulate the chain moving forward by generating new blocks every fe
 
 It's _ephemeral_ because any changes to the chain are reset after each restart, providing a nice deterministic workflow for testing transactions during development.
 
-The config for you devnet lives inside your `trix.toml` as a `devnet` profile:
+The config for you devnet lives inside the `devent.toml` file located in the root of your project.
 
 ```toml
-[profiles.devnet]
-chain = "CardanoDevnet"
+[[utxos]]
+address = "@alice"
+value = 500000000
 
-[[profiles.devnet.wallets]]
-name = "alice"
-random_key = true
-initial_balance = 1000000000000000000
-
-[[profiles.devnet.wallets]]
-name = "bob"
-random_key = true
-initial_balance = 1000000000000000000
+[[utxos]]
+address = "@bob"
+value = 500000000
 ```
 
-Notice that the config allows you to define test wallets that can be used as parties in your test transactions. When the devnet starts, these wallets will be configured automatically with the specified initial balances.
+Notice that the config allows you to define the initial UTxO set of the network. When the devnet starts, these UTxO will be part of the genesis block using the specified balances.
+
+In this case, `@bob` and `@alice` are two dev wallets configured in your `trix.toml` file. You can create your initial UTxO pointing to these dev wallets by using the `@` prefix. Any other literal string will be interpreted as a bech32 address.
 
 To start the devnet process, run the following command:
 
