@@ -52,6 +52,7 @@ Trix provides the following main commands:
 *   `trix init`: Initialize a new Tx3 project.
 *   `trix check`: Check a Tx3 package and its dependencies for errors.
 *   `trix bindgen`: Generate code bindings for smart contracts.
+*   `trix test`: Run automated tests using test configuration files.
 *   `trix devnet`: Start a local development network.
 *   `trix explore`: Explore a network using CShell.
 *   `trix invoke`: Invoke a transaction using CShell.
@@ -83,6 +84,23 @@ Generate code bindings for smart contracts.
 ```sh
 trix bindgen
 ```
+
+
+### `trix test`
+
+Run automated tests using test configuration files. This command executes predefined test scenarios that include wallet creation, transaction execution, and balance verification.
+
+```sh
+trix test <path>
+```
+
+**Arguments:**
+
+*   `<path>`: Path to the test TOML configuration file.
+
+The test configuration file provides a structured way to define test cases and verify the expected outcomes of executing tx3 code.
+
+For detailed information about test configuration format and examples, see the [Testing Guide](./testing).
 
 
 ### `trix devnet`
@@ -167,5 +185,15 @@ Here are some common workflows you might follow when developing with trix:
     ```sh
     trix explore
     ```
+
+5. Running Automated Tests:
+
+    Create a test configuration file (e.g., `test.toml`) and run your tests:
+
+    ```sh
+    trix test test.toml
+    ```
+
+    This will automatically set up a test environment, execute the defined transactions, and verify the expected outcomes.
 
 </Steps>
