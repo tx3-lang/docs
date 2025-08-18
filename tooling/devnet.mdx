@@ -10,11 +10,17 @@ This guide explains how to run the Devnet network for testing purposes.
 
 ## Overview
 
-Devnet is a custom Cardano test network powered by [Dolos](https://docs.txpipe.io/dolos). It allows you to define initial wallet funds, execute transactions, etc. To set up the environment, you must run [tx3up](./tx3up). It launches Dolos using custom genesis files for the Devnet network.
+Devnet is a custom Cardano test network powered by [Dolos](https://docs.txpipe.io/dolos). It allows you to define initial wallet funds, execute transactions, test your Tx3 protocols in an isolated environment, etc. To set up the environment, you must run [tx3up](./tx3up). It launches Dolos using custom genesis files for the Devnet network.
+
+Devnet is used both for manual testing and automated testing:
+- **Manual testing**: You can start Devnet manually using `trix devnet` and interact with it using `trix invoke` and `trix explore`
+- **Automated testing**: The `trix test` command automatically creates and manages its own Devnet instance to execute test scenarios defined in test configuration files
+
+For information about automated testing with Devnet, see the [Testing Guide](./testing) and the [`trix test` command documentation](./trix#trix-test).
 
 ## Usage
 
-Before running Devnet, use [trix init](./trix#trix-init) to initialize a tx3 project. This will generate a default Devnet configuration in the `trix.toml` file, including default wallets.  
+Before running Devnet manually, use [trix init](./trix#trix-init) to initialize a tx3 project. This will generate a default Devnet configuration in the `trix.toml` file, including default wallets.  
 After initializing the project, run [trix devnet](./trix#trix-devnet) to start the Devnet.
 
 ```sh
@@ -22,6 +28,8 @@ trix devnet
 ```
 
 > **Note:** The password for each Devnet wallet is the same as the wallet name defined in `trix.toml` (e.g., if the name is `bob`, the password is `bob`).
+
+When using the `trix test` command, Devnet is automatically managed for you - it creates a temporary Devnet instance, runs your tests, and cleans up afterward. See the [Testing Guide](./testing) for more details on automated testing.
 
 ## Common Workflows
 
