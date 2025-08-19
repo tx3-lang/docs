@@ -31,6 +31,84 @@ trix devnet
 
 When using the `trix test` command, Devnet is automatically managed for you - it creates a temporary Devnet instance, runs your tests, and cleans up afterward. See the [Testing Guide](./testing) for more details on automated testing.
 
+## Configuring Initial UTXOs
+
+You can define the initial UTXOs available on the Devnet by editing the `devnet.toml` file in your project root. This file allows you to specify which addresses should have funds when the Devnet starts.
+
+### Structure
+
+The `devnet.toml` file uses the following structure:
+
+```toml
+[[utxos]]
+address = "@alice"
+value = 1000000
+
+[[utxos]]
+address = "@bob"
+value = 2000000
+
+[[utxos]]
+address = "@charlie"
+value = 3000000
+
+[[utxos]]
+address = "addr1ddd"
+value = 4000000
+```
+
+### Configuration Options
+
+- **address**: The recipient address for the UTXO. This can be:
+  - A wallet name prefixed with `@` (e.g., `@alice`) - references a wallet defined in `trix.toml`
+  - A direct Cardano address (e.g., `addr1ddd...`)
+- **value**: The amount of lovelace (ADA × 1,000,000) that the address will receive
+
+### Example
+
+Here's a complete example of a `devnet.toml` file:
+
+```toml
+# Fund named wallets from trix.toml
+[[utxos]]
+address = "@alice"
+value = 10000000  # 10 ADA
+
+[[utxos]]
+address = "@bob"
+value = 5000000   # 5 ADA
+
+# Fund a specific address directly
+[[utxos]]
+address = "addr1qxy2lpan99fcnyrwq9kd4z5tn9pr0k26e2h0q2z3v6w8q8v9l"
+value = 2000000   # 2 ADA
+```
+
+When you start the Devnet with `trix devnet`, these UTXOs will be available at the specified addresses with the configured amounts.
+
+## Getting Wallet Information
+
+You can retrieve detailed information about any wallet defined in your `trix.toml` file using the `trix wallet` command:
+
+```sh
+trix wallet [name]
+```
+
+This command returns a JSON structure containing the wallet's public key and addresses for both mainnet and testnet:
+
+```json
+{
+  "name": "alice",
+  "public_key": "9b1622919b3a74c037599d67d065f10c46c047801efe024a80344e79be4d9c0b2edb662977726943b63e8c9c5ee761c77f682ee31ef28e74fcab8a54bf692438",
+  "addresses": {
+    "mainnet": "addr1vyn7k6gfllvhauxkzw478ds2f9axmu4qw78pm86dtyd40yqnz6dv9",
+    "testnet": "addr_test1vqn7k6gfllvhauxkzw478ds2f9axmu4qw78pm86dtyd40yqg2w3rq"
+  }
+}
+```
+
+This is particularly useful when you need to execute transactions using tx3 bindgen code or when working with specific addresses in your development workflow.
+
 ## Common Workflows
 
 Here are some common workflows you might follow when you are running devnet:
