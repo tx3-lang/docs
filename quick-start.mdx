@@ -170,7 +170,7 @@ The node will emulate the chain moving forward by generating new blocks every fe
 
 It's _ephemeral_ because any changes to the chain are reset after each restart, providing a nice deterministic workflow for testing transactions during development.
 
-The config for you devnet lives inside the `devent.toml` file located in the root of your project.
+The config for you devnet lives inside the `devnet.toml` file located in the root of your project.
 
 ```toml
 [[utxos]]
@@ -184,7 +184,7 @@ value = 500000000
 
 Notice that the config allows you to define the initial UTxO set of the network. When the devnet starts, these UTxO will be part of the genesis block using the specified balances.
 
-In this case, `@bob` and `@alice` are two dev wallets configured in your `trix.toml` file. You can create your initial UTxO pointing to these dev wallets by using the `@` prefix. Any other literal string will be interpreted as a bech32 address.
+In this case, `@bob` and `@alice` are two dev wallets configured in your `trix.toml` file. You can create your initial UTxO pointing to these dev wallets by using the `@` prefix. Any other literal string will be interpreted as a hex address format.
 
 To start the devnet process, run the following command:
 
@@ -192,7 +192,7 @@ To start the devnet process, run the following command:
 trix devnet
 ```
 
-Once started, you should start seeing many logs in your temrinal. These logs describe the internal activity of the devnet.
+Once started, you should start seeing many logs in your terminal. These logs describe the internal activity of the devnet.
 
 TIP: the devnet mechanism is managed by Dolos, a lightweight Cardano Data Node.
 
@@ -201,6 +201,39 @@ Now that your devnet process is running, you can see what's happening by running
 ```
 trix explore
 ```
+
+### Invoking Transactions
+
+With your devnet running, you can now test your `transfer` transaction using the `trix invoke` command. This command provides an interactive way to execute the transactions defined in your Tx3 protocol.
+
+In a new terminal (while keeping the devnet running), execute:
+
+```
+trix invoke
+```
+
+The command will guide you through an interactive process:
+
+1. **Transaction Selection**: If you have more than one transaction defined in your protocol, it will ask you to select which transaction template you want to execute. In our case, since we only have the `transfer` transaction, this step will be skipped automatically.
+
+2. **Parameter Input**: Then it will prompt you for the required parameters for the selected transaction. For the `transfer` transaction, it will ask you for:
+   - `quantity`: The amount of ADA to transfer (in lovelace, e.g., `1000000` for 1 ADA)
+   - `sender`: The wallet that will send the ADA (e.g., `alice`)
+   - `receiver`: The wallet that will receive the ADA (e.g., `bob`)
+
+3. **Transaction Review**: The system will build the transaction
+
+4. **Signing**: You'll be prompted to sign the transaction using the sender's wallet
+
+5. **Submission**: Finally, the signed transaction will be submitted to your running devnet
+
+After submission, you can monitor and verify the transaction in several ways using `trix explore`:
+
+- **Real-time monitoring**: If you keep `trix explore` running in another terminal before executing `trix invoke`, you'll be able to see the submitted transaction appear in real-time on the `txs` screen with all transaction details.
+
+- **Post-submission verification**: If you run `trix explore` after the transaction submission, you can check the updated wallet balances and transaction history to verify that the ADA has been transferred from the sender to the receiver as expected.
+
+This interactive workflow makes it easy to test your Tx3 protocols during development without needing to write additional code or manage wallet operations manually.
 
 ## What's next
 
