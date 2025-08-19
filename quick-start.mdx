@@ -170,7 +170,7 @@ The node will emulate the chain moving forward by generating new blocks every fe
 
 It's _ephemeral_ because any changes to the chain are reset after each restart, providing a nice deterministic workflow for testing transactions during development.
 
-The config for you devnet lives inside the `devent.toml` file located in the root of your project.
+The config for you devnet lives inside the `devnet.toml` file located in the root of your project.
 
 ```toml
 [[utxos]]
@@ -184,7 +184,7 @@ value = 500000000
 
 Notice that the config allows you to define the initial UTxO set of the network. When the devnet starts, these UTxO will be part of the genesis block using the specified balances.
 
-In this case, `@bob` and `@alice` are two dev wallets configured in your `trix.toml` file. You can create your initial UTxO pointing to these dev wallets by using the `@` prefix. Any other literal string will be interpreted as a bech32 address.
+In this case, `@bob` and `@alice` are two dev wallets configured in your `trix.toml` file. You can create your initial UTxO pointing to these dev wallets by using the `@` prefix. Any other literal string will be interpreted as a hex address format.
 
 To start the devnet process, run the following command:
 
@@ -192,7 +192,7 @@ To start the devnet process, run the following command:
 trix devnet
 ```
 
-Once started, you should start seeing many logs in your temrinal. These logs describe the internal activity of the devnet.
+Once started, you should start seeing many logs in your terminal. These logs describe the internal activity of the devnet.
 
 TIP: the devnet mechanism is managed by Dolos, a lightweight Cardano Data Node.
 
