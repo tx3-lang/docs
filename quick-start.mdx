@@ -202,6 +202,39 @@ Now that your devnet process is running, you can see what's happening by running
 trix explore
 ```
 
+### Invoking Transactions
+
+With your devnet running, you can now test your `transfer` transaction using the `trix invoke` command. This command provides an interactive way to execute the transactions defined in your Tx3 protocol.
+
+In a new terminal (while keeping the devnet running), execute:
+
+```
+trix invoke
+```
+
+The command will guide you through an interactive process:
+
+1. **Transaction Selection**: If you have more than one transaction defined in your protocol, it will ask you to select which transaction template you want to execute. In our case, since we only have the `transfer` transaction, this step will be skipped automatically.
+
+2. **Parameter Input**: Then it will prompt you for the required parameters for the selected transaction. For the `transfer` transaction, it will ask you for:
+   - `quantity`: The amount of ADA to transfer (in lovelace, e.g., `1000000` for 1 ADA)
+   - `sender`: The wallet that will send the ADA (e.g., `alice`)
+   - `receiver`: The wallet that will receive the ADA (e.g., `bob`)
+
+3. **Transaction Review**: The system will build the transaction
+
+4. **Signing**: You'll be prompted to sign the transaction using the sender's wallet
+
+5. **Submission**: Finally, the signed transaction will be submitted to your running devnet
+
+After submission, you can monitor and verify the transaction in several ways using `trix explore`:
+
+- **Real-time monitoring**: If you keep `trix explore` running in another terminal before executing `trix invoke`, you'll be able to see the submitted transaction appear in real-time on the `txs` screen with all transaction details.
+
+- **Post-submission verification**: If you run `trix explore` after the transaction submission, you can check the updated wallet balances and transaction history to verify that the ADA has been transferred from the sender to the receiver as expected.
+
+This interactive workflow makes it easy to test your Tx3 protocols during development without needing to write additional code or manage wallet operations manually.
+
 ## What's next
 
 If you've made it this far you should have a pretty good idea of what is Tx3 about, but this just barely scratched the surface.
