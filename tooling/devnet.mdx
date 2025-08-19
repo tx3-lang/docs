@@ -53,7 +53,7 @@ address = "@charlie"
 value = 3000000
 
 [[utxos]]
-address = "addr1ddd"
+address = "001122aabbcc"
 value = 4000000
 ```
 
@@ -61,7 +61,7 @@ value = 4000000
 
 - **address**: The recipient address for the UTXO. This can be:
   - A wallet name prefixed with `@` (e.g., `@alice`) - references a wallet defined in `trix.toml`
-  - A direct Cardano address (e.g., `addr1ddd...`)
+  - A direct Cardano address in hex format (e.g., `001122aabbcc...`) - bech32 format support coming soon
 - **value**: The amount of lovelace (ADA × 1,000,000) that the address will receive
 
 ### Example
@@ -78,9 +78,9 @@ value = 10000000  # 10 ADA
 address = "@bob"
 value = 5000000   # 5 ADA
 
-# Fund a specific address directly
+# Fund a specific address directly (hex format)
 [[utxos]]
-address = "addr1qxy2lpan99fcnyrwq9kd4z5tn9pr0k26e2h0q2z3v6w8q8v9l"
+address = "001122aabbccddee334455667788990011223344556677889900"
 value = 2000000   # 2 ADA
 ```
 
