@@ -59,10 +59,17 @@ value = 4000000
 
 ### Configuration Options
 
+#### Value UTXOs
+
 - **address**: The recipient address for the UTXO. This can be:
   - A wallet name prefixed with `@` (e.g., `@alice`) - references a wallet defined in `trix.toml`
   - A direct Cardano address in hex format (e.g., `001122aabbcc...`) - bech32 format support coming soon
 - **value**: The amount of lovelace (ADA × 1,000,000) that the address will receive
+
+#### Deps UTXOs
+
+- **ref**: The UTXO reference in the format `txid#index` (e.g., `abcd1234...#0`)
+- **raw_bytes**: The raw bytes of the UTXO in hex CBOR format
 
 ### Example
 
@@ -82,6 +89,11 @@ value = 5000000   # 5 ADA
 [[utxos]]
 address = "001122aabbccddee334455667788990011223344556677889900"
 value = 2000000   # 2 ADA
+
+# Dep UTXO
+[[utxos]]
+ref = "001122aabbccddee334455667788990011223344556677889900#0"
+raw_bytes = "001122aabbccddee334455667788990011223344556677889900..."
 ```
 
 When you start the Devnet with `trix devnet`, these UTXOs will be available at the specified addresses with the configured amounts.
@@ -123,21 +135,28 @@ Here are some common workflows you might follow when you are running devnet:
 
    This will create a `trix.toml` file with a default Devnet configuration and wallets.
 
-2. Start the Devnet:
+2. (Optional) Sync devnet with a tx utxo deps:
+   ```sh
+   trix devnet copy --profile <profile> --utxo-deps <tx-hash>
+   ```
+
+   This creates the `devnet.toml` file with the necessary UTXO deps.
+
+3. Start the Devnet:
    ```sh
    trix devnet
    ```
 
    This launches a local Cardano test network powered by Dolos.
 
-3. (Optional) Run Devnet in the Background:
+4. (Optional) Run Devnet in the Background:
    ```sh
    trix devnet -b
    ```
 
    Use this if you want Devnet to run as a background process.
 
-4. Explore the Network:
+5. Explore the Network:
 
    Invoke a transaction:
    ```sh
