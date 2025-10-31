@@ -51,8 +51,6 @@ trix devnet
 The devnet will start and print timestamped INFO logs that show the Devnet components starting, running, and stopping.
 While the emulator is starting you should see startup messages and the tool prints sample wallets and addresses.
 
-### Checking addresses in Devnet
-
 If you don’t see addresses in the console or if you need to look up the addresses for a specific named wallet (for example a wallet defined in `trix.toml`), you can run:
 
 ```bash
