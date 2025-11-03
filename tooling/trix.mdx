@@ -124,9 +124,8 @@ trix explore
 
 ### `trix bindgen`
 
-Generate language bindings (client libraries) for the protocols and transactions defined in your Tx3 project. Bindings are templated using handlebars and can target multiple languages.
-
-Use `bindgen` to generate typed client code that can be used from NodeJS, Rust, Go, Python, etc., making it easier to integrate Tx3 protocols into applications and tests.
+Generate code bindings (client libraries) for the smart contracts defined in your Tx3 project. Bindings are templated using handlebars and can target multiple languages, including TypeScript, Rust, Go, and Python.
+For detailed information about configuring and using bindgen, see the [Bindgen Guide](../integration/bindgen).
 
 Usage:
 
@@ -248,68 +247,3 @@ trix telemetry <COMMAND>
 *   `on` - Enable telemetry (anonymous usage data collection)
 *   `off` - Disable telemetry
 *   `status` - Show the current telemetry status
-
-
-## Common Workflows
-
-Here are some common workflows you might follow when developing with trix:
-
-<Steps>
-
-1. Starting a New Project:
-
-    ```sh
-    mkdir my_tx3_project
-    cd my_tx3_project
-    trix init
-    ```
-
-    Follow the prompts to set up your project.
-
-2. Writing and Checking Code:
-
-    Edit the `main.tx3` file and any other `.tx3` files in your project. Regularly check for errors:
-
-    ```sh
-    trix check
-    ```
-
-3. Generating Bindings:
-
-    After writing your Tx3 code, generate language bindings to use your protocols in other applications:
-
-    ```sh
-    trix bindgen
-    ```
-
-4. Developing and Testing on a Devnet:
-
-    Start a local development network:
-
-    ```sh
-    trix devnet
-    ```
-
-    In a separate terminal, invoke a transaction:
-
-    ```sh
-    trix invoke
-    ```
-
-    Then, in another terminal, explore the devnet to monitor the transaction:
-
-    ```sh
-    trix explore
-    ```
-
-5. Running Automated Tests:
-
-    Create a test configuration file (e.g., `test.toml`) and run your tests:
-
-    ```sh
-    trix test test.toml
-    ```
-
-    This will automatically set up a test environment, execute the defined transactions, and verify the expected outcomes.
-
-</Steps>
