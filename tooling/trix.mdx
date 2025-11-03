@@ -59,9 +59,7 @@ Main commands:
 
 ### `trix init`
 
-Initialize a new Tx3 project in the current directory. Scaffolds `trix.toml`, `main.tx3`, and a sample test file.
-
-Use this to quickly create a correctly structured project so other trix commands (build, bindgen, test) work without manual configuration.
+Initialize a new Tx3 project in the current directory. Scaffolds `trix.toml`, `main.tx3`, and a sample test file.Use this to quickly create a correctly structured project so other trix commands (build, bindgen, test) work without manual configuration.
 
 Usage:
 
@@ -75,9 +73,7 @@ trix init [OPTIONS]
 
 ### `trix invoke`
 
-Interactively invoke a transaction from your main Tx3 file against a running devnet. It uses CShell to assemble, sign and optionally submit the transaction.
-
-Use this to execute single transactions during development or to script manual test steps.
+Interactively invoke a transaction from your main Tx3 file against a running devnet. It uses CShell to assemble, sign and optionally submit the transaction. Useful for executing single transactions during development or scripting manual test steps.
 
 Usage:
 
@@ -112,9 +108,7 @@ trix devnet [OPTIONS]
 
 ### `trix explore`
 
-Launch the CShell interactive explorer connected to devnet. It opens an interactive process for inspecting addresses, transactions and chain state.
-
-Use this to debug transactions and examine on-chain state while developing.
+Launch the CShell interactive explorer connected to devnet. It opens an interactive process for inspecting addresses, transactions and chain state. Useful for debugging and inspecting on-chain state while developing.
 
 Usage:
 
@@ -160,7 +154,6 @@ trix inspect <COMMAND>
 ### `trix test`
 
 Run automated tests using test configuration files. This command executes predefined test scenarios that include wallet creation, transaction execution, and balance verification.
-
 
 Usage:
 
@@ -242,6 +235,7 @@ Usage:
 ```sh
 trix telemetry <COMMAND>
 ```
+
 **Commands:**
 
 *   `on` - Enable telemetry (anonymous usage data collection)
