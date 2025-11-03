@@ -11,23 +11,15 @@ This documentation will guide you through installing Trix, setting up your first
 
 ## Installation Requirements and Initial Setup
 
-There are two main ways to install Trix:
-
 <Steps>
 
 1. Using `tx3up` (Recommended):
 
-   `tx3up` is a tool installer that installs every tool for the Tx3 language, including Trix. It is the recommended way to install Trix as it ensures you have compatible versions of all necessary Tx3 tools. Follow the instructions on the [tx3up](./tx3up) to install `tx3up`, and then run:
+    `tx3up` is a tool installer that installs every tool for the Tx3 language, including Trix. It is the recommended way to install Trix as it ensures you have compatible versions of all necessary Tx3 tools. Follow the instructions on the [tx3up](./tx3up) to install `tx3up`, and then run:
 
-   ```sh
-   tx3up
-   ```
-
-2. Downloading from GitHub Releases:
-
-   If you only need the Trix executable and prefer not to use `tx3up`, you can download the appropriate binary for your operating system from the [latest releases page on GitHub](https://github.com/tx3-lang/trix/releases).
-
-   After downloading, you may need to make the binary executable and add it to your system's PATH.
+    ```sh
+    tx3up
+    ```
 
 </Steps>
 
@@ -47,97 +39,149 @@ The `init` command will interactively ask you for some details about your projec
 
 ## Overview Commands
 
-Trix provides the following main commands:
+The sections below describe the trix commands currently exposed by the CLI. For the most up-to-date flags and advanced options run `trix <command> --help`.
+
+Main commands:
 
 *   `trix init`: Initialize a new Tx3 project.
-*   `trix check`: Check a Tx3 package and its dependencies for errors.
-*   `trix bindgen`: Generate code bindings for smart contracts.
-*   `trix test`: Run automated tests using test configuration files.
+*   `trix invoke`: Invoke a transaction using CShell.
 *   `trix devnet`: Start a local development network.
 *   `trix explore`: Explore a network using CShell.
-*   `trix invoke`: Invoke a transaction using CShell.
+*   `trix bindgen`: Generate code bindings for smart contracts.
+*   `trix check`: Check a Tx3 package and its dependencies for errors.
+*   `trix inspect`: Inspect the intermediate representation of a transaction
+*   `trix test`: Run automated tests using test configuration files.
 *   `trix build`: Build a Tx3 file.
 *   `trix wallet`: Manage wallets.
+*   `trix telemetry`: Manage telemetry settings.
 
 ## Command Details
 
 ### `trix init`
 
-Initialize a new Tx3 project.
+Initialize a new Tx3 project in the current directory. Scaffolds `trix.toml`, `main.tx3`, and a sample test file.
+
+Use this to quickly create a correctly structured project so other trix commands (build, bindgen, test) work without manual configuration.
+
+Usage:
 
 ```sh
-trix init
-```
-
-
-### `trix check`
-
-Check a Tx3 package and all of its dependencies for errors.
-
-```sh
-trix check
-```
-
-
-### `trix bindgen`
-
-Generate code bindings for smart contracts.
-
-```sh
-trix bindgen
-```
-
-
-### `trix test`
-
-Run automated tests using test configuration files. This command executes predefined test scenarios that include wallet creation, transaction execution, and balance verification.
-
-```sh
-trix test <path>
+trix init [OPTIONS]
 ```
 
 **Arguments:**
 
-*   `<path>`: Path to the test TOML configuration file.
+- `-y`, `--yes` - Use default configuration and skip interactive prompts.
 
-The test configuration file provides a structured way to define test cases and verify the expected outcomes of executing tx3 code.
+### `trix invoke`
 
-For detailed information about test configuration format and examples, see the [Testing Guide](./testing).
+Interactively invoke a transaction from your main Tx3 file against a running devnet. It uses CShell to assemble, sign and optionally submit the transaction.
 
+Use this to execute single transactions during development or to script manual test steps.
+
+Usage:
+
+```sh
+trix invoke [OPTIONS]
+```
+
+**Options**:
+
+- `--args-json <JSON_STRING>`: Args for the TX3 transaction as a raw JSON string.
+- `--args-json-path <PATH>`: Path to a JSON file with arguments for the TX3 transaction.
+- `--skip-submit`: Skip submitting the transaction (useful for inspection).
+
+If no args are provided, `trix invoke` opens an interactive prompt for selecting a transaction and filling arguments.
 
 ### `trix devnet`
 
-Start a local development network (powered by Dolos). Note that running `tx3up` is required to prepare the environment before starting the devnet. For more detailed information on using the development network, please refer to the [Devnet Guide](./devnet).
+Start a local development network (Dolos) prepared with wallets and initial funds according to `devnet.toml` or the project profile.
+
+Note that running `tx3up` is required to prepare the environment before starting the devnet. For more detailed information on using the development network, please refer to the [Devnet Guide](./devnet).
+
+Usage:
 
 ```sh
 trix devnet [OPTIONS]
 ```
 
-**Available Options:**
+**Options:**
 
-*   `-b`, `--background`: Run devnet as a background process.
+- `-b`, `--background`: Run the devnet as a background process (daemonize). When not backgrounded the command waits and prints the devnet process status.
 
 
 ### `trix explore`
 
-Explore a network (powered by CShell).
+Launch the CShell interactive explorer connected to devnet. It opens an interactive process for inspecting addresses, transactions and chain state.
+
+Use this to debug transactions and examine on-chain state while developing.
+
+Usage:
 
 ```sh
 trix explore
 ```
 
+### `trix bindgen`
 
-### `trix invoke`
+Generate language bindings (client libraries) for the protocols and transactions defined in your Tx3 project. Bindings are templated using handlebars and can target multiple languages.
 
-Invoke a transaction (powered by CShell).
+Use `bindgen` to generate typed client code that can be used from NodeJS, Rust, Go, Python, etc., making it easier to integrate Tx3 protocols into applications and tests.
+
+Usage:
 
 ```sh
-trix invoke
+trix bindgen
 ```
+
+### `trix check`
+
+Performs static analysis and validation of the current Tx3 package and its dependencies. Runs the Tx3 parser and analyzer and returns errors if any are found.
+
+Usage:
+
+```sh
+trix check
+```
+
+### `trix inspect`:
+
+Inspect the intermediate representation (TIR) of a transaction defined in your Tx3 project. This command outputs the TIR JSON for a specified transaction, allowing you to examine how Tx3 compiles your code.
+
+Usage:
+
+```sh
+trix inspect <COMMAND>
+```
+
+**Commands:**
+
+- `tir --tx <TX>`: Inspect the intermediate representation of a transaction `<TX>`.
+
+### `trix test`
+
+Run automated tests using test configuration files. This command executes predefined test scenarios that include wallet creation, transaction execution, and balance verification.
+
+
+Usage:
+
+```sh
+trix test <PATH>
+```
+
+**Arguments:**
+
+*   `<PATH>`: Path to the test TOML configuration file.
+
+The test configuration file provides a structured way to define test cases and verify the expected outcomes of executing tx3 code.
+
+For detailed information about test configuration format and examples, see the [Testing Guide](./testing).
 
 ### `trix build`
 
 Build a Tx3 file from the root folder, generating the TIR (Transaction Intermediate Representation) and arguments for each transaction defined in the file.
+
+Usage:
 
 ```sh
 trix build [OPTIONS]
@@ -145,12 +189,15 @@ trix build [OPTIONS]
 
 **Options:**
 
-*   `-o`, `--output <OUTPUT>`: Path to save the build output to a JSON file
-*   `-p`, `--profile <PROFILE>`: Select a profile to use the environment file for the arguments
+*   `-o`, `--output <OUTPUT>`: Path to save the build output to a JSON file. If omitted the JSON is printed to stdout.
+*   `-p`, `--profile <PROFILE>`: Select a profile (for example `devnet`, `preview`, `preprod`, `mainnet`) to resolve env files and argument values.
+
 
 ### `trix wallet`
 
-Manage wallets and retrieve wallet information.
+Inspect or query wallets created for the devnet environment. When called with only a wallet name it prints full JSON info (addresses, public key, etc.). Subcommands return specific fields.
+
+Usage:
 
 ```sh
 trix wallet <NAME> [COMMAND]
@@ -158,31 +205,49 @@ trix wallet <NAME> [COMMAND]
 
 **Arguments:**
 
-*   `<NAME>`: The name of the wallet
+*   `<NAME>`: Wallet name.
 
 **Available Commands:**
 
 *   `address-testnet`: Get the testnet address for the wallet
-*   `address-mainnet`: Get the mainnet address for the wallet  
+*   `address-mainnet`: Get the mainnet address for the wallet
 *   `public-key`: Get the public key for the wallet
 *   `public-key-hash`: Get the public key hash for the wallet
 
 **Examples:**
 
 Get complete wallet information (returns JSON with addresses and public key):
+
 ```sh
 trix wallet bob
 ```
 
 Get only the testnet address:
+
 ```sh
 trix wallet bob address-testnet
 ```
 
 Get only the public key:
+
 ```sh
 trix wallet bob public-key
 ```
+
+### `trix telemetry`
+
+Manage telemetry settings for Trix. You can enable or disable telemetry data collection. Trix uses telemetry to help improve the tool by collecting anonymous usage data.|
+
+Usage:
+
+```sh
+trix telemetry <COMMAND>
+```
+**Commands:**
+
+*   `on` - Enable telemetry (anonymous usage data collection)
+*   `off` - Disable telemetry
+*   `status` - Show the current telemetry status
 
 
 ## Common Workflows
