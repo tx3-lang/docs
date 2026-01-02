@@ -47,12 +47,11 @@ Main commands:
 *   `trix invoke`: Invoke a transaction using CShell.
 *   `trix devnet`: Start a local development network.
 *   `trix explore`: Explore a network using CShell.
-*   `trix bindgen`: Generate code bindings for smart contracts.
+*   `trix codegen`: Generate code to interact with your protocol.
 *   `trix check`: Check a Tx3 package and its dependencies for errors.
 *   `trix inspect`: Inspect the intermediate representation of a transaction
 *   `trix test`: Run automated tests using test configuration files.
 *   `trix build`: Build a Tx3 file.
-*   `trix wallet`: Manage wallets.
 *   `trix telemetry`: Manage telemetry settings.
 
 ## Command Details
@@ -116,15 +115,15 @@ Usage:
 trix explore
 ```
 
-### `trix bindgen`
+### `trix codegen`
 
-Generate code bindings (client libraries) for the smart contracts defined in your Tx3 project. Bindings are templated using handlebars and can target multiple languages, including TypeScript, Rust, Go, and Python.
-For detailed information about configuring and using bindgen, see the [Bindgen Guide](../integration/bindgen).
+Generate code that can interact with your protocol by interpreting the interfaces defined by your Tx3 project. Code is generated from templates that use handlebars and can target multiple languages, including TypeScript, Rust, Go, and Python.
+For detailed information about configuring and using bindgen, see the [Bindgen Guide](../integration/codegen).
 
 Usage:
 
 ```sh
-trix bindgen
+trix codegen
 ```
 
 ### `trix check`
@@ -184,47 +183,6 @@ trix build [OPTIONS]
 *   `-o`, `--output <OUTPUT>`: Path to save the build output to a JSON file. If omitted the JSON is printed to stdout.
 *   `-p`, `--profile <PROFILE>`: Select a profile (for example `devnet`, `preview`, `preprod`, `mainnet`) to resolve env files and argument values.
 
-
-### `trix wallet`
-
-Inspect or query wallets created for the devnet environment. When called with only a wallet name it prints full JSON info (addresses, public key, etc.). Subcommands return specific fields.
-
-Usage:
-
-```sh
-trix wallet <NAME> [COMMAND]
-```
-
-**Arguments:**
-
-*   `<NAME>`: Wallet name.
-
-**Available Commands:**
-
-*   `address-testnet`: Get the testnet address for the wallet
-*   `address-mainnet`: Get the mainnet address for the wallet
-*   `public-key`: Get the public key for the wallet
-*   `public-key-hash`: Get the public key hash for the wallet
-
-**Examples:**
-
-Get complete wallet information (returns JSON with addresses and public key):
-
-```sh
-trix wallet bob
-```
-
-Get only the testnet address:
-
-```sh
-trix wallet bob address-testnet
-```
-
-Get only the public key:
-
-```sh
-trix wallet bob public-key
-```
 
 ### `trix telemetry`
 

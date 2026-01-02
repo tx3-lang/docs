@@ -1,5 +1,5 @@
 ---
-title: Bindgen Basics
+title: Codegen Basics
 sidebar:
   order: 0
 ---
@@ -8,9 +8,14 @@ import { Aside, TabItem, Tabs, LinkCard } from "@astrojs/starlight/components"
 
 Declaring the interface for blockchain protocol is not very useful unless we have a way to interact programmatically with it.
 
-**Bindgen** is the process of generating the bindings of your Tx3 protocol in a particular general-purpose language.
+**Codgen** is the process of automatically generating code of that can interact with your Tx3 protocol in a particular way and in a particular general-purpose language.
 
-Bindings are just glue code that allows you to execute the transaction building logic by calling language-specific functions that represent the templates in your protocol.
+## Common Uses
+
+Codegen could potentially be used for anything since it's based on open templates. Here are a few categories of things that could be useful: 
+
+- **client libs**: generate bindings, glue code that allows you to execute the transaction building logic by calling language-specific functions that represent the templates in your protocol.
+- **servers**: generate backend servers that wrap your protocol as an API service that hides all of the internal implementation details.
 
 ## Supported Languages
 
@@ -29,16 +34,15 @@ If you're brave enough, you can peek into the different SDK repos that available
 
 ## Configuration
 
-The bindgen configuration lives inside the `trix.toml` file. You need to provide an entry for each language target. Here's an example of the config that targets both Typescript and Rust:
+The codegen configuration lives inside the `trix.toml` file. You need to provide an entry for each language target. Here's an example of the config that targets both Typescript and Rust:
 
 ```toml
 [[bindings]]
-plugin = "typescript"
-output_dir = "./gen/typescript"
+plugin = "ts-client"
 options = { standalone = true }
 
 [[bindings]]
-plugin = "rust"
+plugin = "rust-client"
 output_dir = "./gen/rust"
 ```
 
@@ -58,7 +62,7 @@ Generated code is **not** meant to be manually modified. Any manual changes will
 To run the code generation process, execute the following `trix` command from your CLI:
 
 ```
-trix bindgen
+trix codegen
 ```
 
 If things went well, you should have new code artifacts in the corresponding output locations as defined in your `trix.toml` file.

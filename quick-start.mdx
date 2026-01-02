@@ -6,7 +6,7 @@ sidebar:
 
 import { Aside, TabItem, Tabs } from "@astrojs/starlight/components"
 
-This guide will help you write your first Tx3 program. We'll create a simple transfer program that allows one party to send ADA to another.
+This guide will help you write your first Tx3 protocol. We'll create a simple transfer protocol that allows one party to send ADA to another.
 
 We're assuming you have some experience building transactions for UTxO blockchains. If you need a refresher, here's a [good one](https://aiken-lang.org/fundamentals/eutxo).
 
@@ -48,10 +48,13 @@ my-protocol/
 
 The `trix init` command generates a `main.tx3` file with a very basic example. Open the file in your code editor of choice so that we can inspect the contents together.
 
-TIP: if use VSCode, there's a [Tx3 extension](https://marketplace.visualstudio.com/items/?itemName=TxPipe.tx3-language-support) in the marketplace that provides many QoL features like syntax highlighting and error diagnostics.
+TIP: if use VSCode, there's a [Tx3 extension](https://marketplace.visualstudio.com/items/?itemName=TxPipe.tx3) in the marketplace that provides many QoL features like syntax highlighting and error diagnostics.
+
+TIP: if you're using a VSCode-based IDE (eg: Cursor), there's also a [Tx3 extension](https://open-vsx.org/extension/txpipe/tx3) in the Open-VSX marketplace.
 
 ```tx3
 party Sender;
+
 party Receiver;
 
 tx transfer(
@@ -59,7 +62,7 @@ tx transfer(
 ) {
     input source {
         from: Sender,
-        min_amount: Ada(quantity),
+        min_amount: Ada(quantity) + fees,
     }
     
     output {
@@ -174,17 +177,21 @@ The config for you devnet lives inside the `devnet.toml` file located in the roo
 
 ```toml
 [[utxos]]
+address = "@charlie"
+value = 100000000000
+
+[[utxos]]
 address = "@alice"
-value = 500000000
+value = 100000000000
 
 [[utxos]]
 address = "@bob"
-value = 500000000
+value = 100000000000
 ```
 
 Notice that the config allows you to define the initial UTxO set of the network. When the devnet starts, these UTxO will be part of the genesis block using the specified balances.
 
-In this case, `@bob` and `@alice` are two dev wallets configured in your `trix.toml` file. You can create your initial UTxO pointing to these dev wallets by using the `@` prefix. Any other literal string will be interpreted as a hex address format.
+In this case, `@alice`, `@bob` and `@charlie` are three identities configured by default that you can use to play around with your protocol. Think of a "identity" as a dummy wallet that represents a potential user in your system. You can create your initial UTxO pointing to these dev wallets by using the `@` prefix. Any other literal string will be interpreted as a hex address format.
 
 To start the devnet process, run the following command:
 

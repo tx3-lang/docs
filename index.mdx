@@ -7,7 +7,7 @@ sidebar:
 
 import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
 
-Tx3 is a domain-specific language for describing protocols that run on UTxO-based blockchains, with a particular focus on Cardano.
+Tx3 is a toolkit for authoring and interacting with UTxO protocols. Think of "UTxO Protocol" as the API to your dApp. The best analogy we have is to think of Tx3 as the "Open API" for blockchain.
 
 ## Rationale
 
@@ -19,11 +19,10 @@ This is why we need a strict but flexible mechanism to describe patterns of tran
 
 ## Scope
 
-- a language to describe a dapp as a set of transaction templates
-- a set of diagram conventions to visualize a dapp at different levels of abstraction
-- an interpreter that takes a transaction template and a set of parameters and generates a concrete transaction
-- a tool to generate executable onchain / offchain code from transaction templates
-
+- a DSL (Domain Specific Language) to describe the interface of your UTxO protocol.
+- a runtime for interacting with UTxO protocols through the use of these interface definitions.
+- a codegen framework for creating strongly-typed clients for UTxO protocols.
+- a set of tools for authoring, testing and managing UTxO protocols.
 
 ## Out of Scope
 
