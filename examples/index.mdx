@@ -4,13 +4,14 @@ title: Example Catalog
 
 import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
-This section contains examples and tutorials demonstrating various Tx3 features and use cases.
-
-We have organized them by category:
+This section is organised around things you might be trying to build, not around the language features they happen to use. For the feature reference, see the [Language section](/tx3/language). Every snippet on these pages is drawn from the [tx3 reference examples](https://github.com/tx3-lang/tx3/tree/main/examples) and compiles against the current parser.
 
 <CardGrid>
-  <LinkCard title="Basic Examples" href="/tx3/examples/basic">Basic examples demonstrating core Tx3 features</LinkCard>
-  <LinkCard title="Plutus Examples" href="/tx3/examples/plutus">Examples of using Tx3 with Plutus validators</LinkCard>
-  <LinkCard title="Real-World Examples" href="/tx3/examples/realworld">Examples of using Tx3 with real-world protocols</LinkCard>
-  <LinkCard title="Examples on Github" href="https://github.com/tx3-lang/tx3/tree/main/examples">All examples available in the Github repo</LinkCard>
+  <LinkCard title="Transfers" href="/tx3/examples/transfers">Send Ada or native assets between parties.</LinkCard>
+  <LinkCard title="Minting & burning" href="/tx3/examples/minting">Create new tokens or destroy existing ones.</LinkCard>
+  <LinkCard title="Vesting & escrow" href="/tx3/examples/vesting">Lock funds in a script and let someone redeem them later under conditions.</LinkCard>
+  <LinkCard title="Swaps & marketplaces" href="/tx3/examples/swaps">Atomically exchange one asset for another.</LinkCard>
+  <LinkCard title="UTxO state" href="/tx3/examples/utxo-state">Encode state into datums; spend a UTxO to advance it, reference one to read it.</LinkCard>
+  <LinkCard title="Cardano-specific use-cases" href="/tx3/examples/cardano">Stake withdrawals, governance, treasury donations, reference-script publishing.</LinkCard>
+  <LinkCard title="All examples on GitHub" href="https://github.com/tx3-lang/tx3/tree/main/examples">Browse the full set of reference examples in the language repo.</LinkCard>
 </CardGrid>
