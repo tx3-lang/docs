@@ -1,261 +1,140 @@
 ---
-title: Asset Expressions
+title: Assets
 sidebar:
-    order: 5
+    order: 6
 ---
 
-This guide covers how to work with blockchain assets and values in Tx3.
+A UTxO carries value: a bag of `(policy, asset_name, amount)` triples. Tx3 surfaces this with the `AnyAsset` type and a small set of conveniences that make it easy to talk about quantities of specific assets without writing the policy and asset name out at every use.
 
-## Overview
+## The implicit `Ada` asset
 
-Tx3 provides built-in support for working with blockchain assets:
+`Ada` is always in scope inside `tx` bodies. You use it as a constructor — apply it to an amount to get an `AnyAsset`:
 
-- Native currency (ADA)
-- Custom tokens
-- NFTs
-- Multi-asset bundles
-
-## Asset Definitions
-
-### Native Asset (ADA)
 ```tx3
-// ADA is built-in
-Ada(1000000)  // 1 ADA
-Ada(500000)   // 0.5 ADA
+Ada(1000000)   // 1 ADA expressed in lovelace
+Ada(500000)    // 0.5 ADA
 ```
 
-### Custom Assets
-```tx3
-// Define custom asset
-asset MyToken = "policy_id" "asset_name";
+`Ada` is the only asset name the language bakes in; everything else is declared.
 
-// Use custom asset
-MyToken(100)
+## Declaring a named asset
+
+If your protocol mentions a specific asset class repeatedly, give it a name with an `asset` declaration:
+
+```tx3
+asset StaticAsset = 0xABCDEF1234."MYTOKEN";
 ```
 
-### AnyAsset Catch-All Constructor
-```tx3
-// Define custom asset and amount
-AnyAsset("policy_id", "asset_name", <amount_int>)
+The right-hand side is a policy expression, a dot, and an asset-name expression — both must have type `Bytes`. Once declared, the name can be used as a constructor like `Ada`:
 
-// Define NFT
-AnyAsset("policy_id", "asset_name", 1)
+```tx3
+StaticAsset(100)
 ```
 
-### Asset Bundles
-```tx3
-// Combine multiple assets
-Ada(1000000) + MyToken(50)
+Asset declarations live at the top level, alongside `party`, `policy`, and `type`.
 
-// Complex bundles
-Ada(1000000) + MyToken(50) + AnyAsset("policy_id", "asset_name", 1)
+## Ad-hoc assets with `AnyAsset(...)`
+
+When the policy or asset name is only known at runtime — for example because it comes from a parameter, an env value, or another input's datum — use the built-in `AnyAsset` constructor function:
+
+```tx3
+AnyAsset(policy, asset_name, quantity)
 ```
 
-## Asset Expressions
-
-### Basic Operations
-```tx3
-// Addition
-asset1 + asset2
-
-// Subtraction
-asset1 - asset2
-
-// Property access
-asset.amount
-```
-
-### Examples
+It takes a `Bytes` policy, a `Bytes` asset name, and an `Int` amount, and returns an `AnyAsset` value.
 
 ```tx3
-// Simple transfer
-tx transfer(amount: Int) {
-    input source {
-        from: Sender,
-        min_amount: Ada(amount),
-    }
-    
-    output {
-        to: Receiver,
-        amount: Ada(amount),
-    }
-}
+party Minter;
 
-// Multi-asset transfer
-tx transfer_multi(
-    ada_amount: Int,
-    token_amount: Int
+tx mint_from_local(
+    mint_policy: Bytes,
+    quantity: Int
 ) {
-    input source {
-        from: Sender,
-        min_amount: Ada(ada_amount) + MyToken(token_amount),
+    locals {
+        token: AnyAsset(mint_policy, "ABC", quantity),
     }
-    
-    output {
-        to: Receiver,
-        amount: Ada(ada_amount) + MyToken(token_amount),
-    }
-}
-```
 
-## Asset Validation
-
-### Minimum Amounts
-```tx3
-input source {
-    from: Sender,
-    min_amount: Ada(1000000),  // At least 1 ADA
-}
-```
-
-### Exact Amounts
-```tx3
-output {
-    to: Receiver,
-    amount: Ada(1000000),  // Exactly 1 ADA
-}
-```
-
-### Asset Combinations
-```tx3
-input source {
-    from: Sender,
-    min_amount: Ada(1000000) + MyToken(50),  // Multiple assets
-}
-```
-
-## Common Patterns
-
-### Token Swap
-```tx3
-tx swap(
-    input_amount: Int,
-    output_amount: Int
-) {
-    input source {
-        from: User,
-        min_amount: TokenA(input_amount),
-    }
-    
-    output {
-        to: User,
-        amount: TokenB(output_amount),
-    }
-}
-```
-
-### NFT Transfer
-```tx3
-tx transfer_nft(
-    policy_id: Bytes,
-    asset_name: Bytes
-) {
-    input source {
-        from: Owner,
-        min_amount: AnyAsset(policy_id, asset_name, 1),
-    }
-    
-    output {
-        to: Recipient,
-        amount: AnyAsset(policy_id, asset_name, 1),
-    }
-}
-
-### FT Transfer
-```tx3
-tx transfer_nft(
-    policy_id: Bytes,
-    asset_name: Bytes,
-    amount: Int
-) {
-    input source {
-        from: Owner,
-        min_amount: AnyAsset(policy_id, asset_name, amount),
-    }
-    
-    output {
-        to: Recipient,
-        amount: AnyAsset(policy_id, asset_name, amount),
-    }
-}
-```
-
-### Liquidity Pool
-```tx3
-tx add_liquidity(
-    ada_amount: Int,
-    token_amount: Int
-) {
-    input ada {
-        from: User,
-        min_amount: Ada(ada_amount),
-    }
-    
-    input token {
-        from: User,
-        min_amount: MyToken(token_amount),
-    }
-    
-    output {
-        to: Pool,
-        amount: Ada(ada_amount) + MyToken(token_amount),
-    }
-}
-```
-
-## Common Use Cases
-
-### Token Minting
-```tx3
-tx mint_tokens(
-    amount: Int
-) {
-    input source {
-        from: MintingAuthority,
-        min_amount: Ada(fees),
-    }
-    
     mint {
-        amount: MyToken(amount),
-        redeemer: MintData { quantity: amount },
+        amount: token,
+        redeemer: (),
+    }
+
+    input source {
+        from: Minter,
+        min_amount: fees,
+    }
+
+    output {
+        to: Minter,
+        amount: token - fees,
     }
 }
 ```
 
-### Token Burning
+## Adding and subtracting
+
+`AnyAsset` values combine with `+` and `-`:
+
 ```tx3
-tx burn_tokens(
-    amount: Int
-) {
+Ada(1000000) + StaticAsset(50)
+source + token - fees
+```
+
+Conceptually each operand is a bag of `(policy, asset_name, amount)` entries; addition merges and sums the amounts for matching entries, and subtraction takes the difference. There is no separate "multi-asset" type — bundles are just `AnyAsset` values that happen to carry more than one entry.
+
+The value attached to an input or reference participates in the same arithmetic: `source - Ada(quantity) - fees` makes sense because `source` is an asset value.
+
+## Reading asset components
+
+An `AnyAsset` exposes three properties:
+
+| Expression          | Type    | Meaning              |
+| ------------------- | ------- | -------------------- |
+| `asset.policy`      | `Bytes` | The asset class's policy id. |
+| `asset.asset_name`  | `Bytes` | The asset name.      |
+| `asset.amount`      | `Int`   | The quantity.        |
+
+These are useful when forwarding details into datums:
+
+```tx3
+party Sender;
+party Receiver;
+
+type TokenBundle {
+    token_id: Bytes,
+    token_name: Bytes,
+    amount: Int,
+}
+
+tx send_token(policy: Bytes, asset_name: Bytes, quantity: Int) {
     input source {
-        from: User,
-        min_amount: MyToken(amount),
+        from: Sender,
+        min_amount: AnyAsset(policy, asset_name, quantity),
     }
-    
-    burn {
-        amount: MyToken(amount),
-        redeemer: BurnData { quantity: amount },
+
+    output {
+        to: Receiver,
+        amount: AnyAsset(policy, asset_name, quantity),
+        datum: TokenBundle {
+            token_id: policy,
+            token_name: asset_name,
+            amount: quantity,
+        },
+    }
+
+    output {
+        to: Sender,
+        amount: source - AnyAsset(policy, asset_name, quantity) - fees,
     }
 }
 ```
 
-### Asset Locking
-```tx3
-tx lock_assets(
-    amount: Int
-) {
-    input source {
-        from: User,
-        min_amount: Ada(amount) + MyToken(amount),
-    }
-    
-    output locked {
-        to: LockContract,
-        amount: Ada(amount) + MyToken(amount),
-        datum: LockState {
-            amount: amount,
-            owner: User,
-        }
-    }
-}
-```
+## Common positions
+
+Asset values appear in a few specific positions:
+
+- `input { min_amount: ... }` — a lower bound on the value the resolver must find on the input.
+- `output { amount: ... }` — the exact value attached to a new output.
+- `mint { amount: ... }` / `burn { amount: ... }` — the assets minted or burnt by the transaction.
+
+For the full surface of `tx` body blocks see [Transactions](./txs).
