@@ -1,0 +1,71 @@
+---
+title: On-chain state & oracles
+---
+
+Two adjacent use-cases that share the same machinery — reading a datum off an existing UTxO.
+
+- **State you maintain.** A protocol owns a UTxO whose datum encodes some state (a counter, a list of registered members, a tally). Each transaction spends that UTxO and produces a new one with the updated datum.
+- **State someone else publishes.** An oracle, a configuration record, or any reference data sits at a known UTxO. You want to read it inside your transaction without spending it.
+
+The first case uses an `input` block; the second uses a [`reference`](/tx3/language/txs#reference--read-a-utxo-without-consuming-it) block. In both cases `datum_is` enables typed field access.
+
+## Updating an on-chain counter
+
+The protocol UTxO is consumed as an input. Its datum is declared with `datum_is`, which lets the output build a new datum that reads from the old one.
+
+```tx3
+type MyRecord {
+    counter: Int,
+    other_field: Bytes,
+}
+
+party MyParty;
+
+tx increase_counter() {
+    input source {
+        from: MyParty,
+        min_amount: fees,
+        datum_is: MyRecord,
+    }
+
+    output {
+        to: MyParty,
+        amount: source - fees,
+        datum: MyRecord {
+            counter: source.counter + 1,
+            other_field: source.other_field,
+        },
+    }
+}
+```
+
+This is the bread-and-butter shape of any on-chain state machine: spend the state UTxO, copy unchanged fields forward, override the fields that move. For datums with many fields the spread operator (`...source`) saves the copy-forward boilerplate — see the [swaps example](/tx3/examples/swaps) for that variant.
+
+## Reading an oracle without spending it
+
+A `reference` block names a UTxO that the transaction should *see* but not consume. With `datum_is` set, its datum is available as typed fields on the reference's name.
+
+```tx3
+party Receiver;
+
+type OracleDatum {
+    value: Int,
+}
+
+tx consume_oracle(oracle_utxo: UtxoRef) {
+    reference oracle_data {
+        ref: oracle_utxo,
+        datum_is: OracleDatum,
+    }
+
+    output {
+        to: Receiver,
+        amount: Ada(0),
+        datum: OracleDatum {
+            value: oracle_data.value,
+        },
+    }
+}
+```
+
+The caller passes the on-chain location of the oracle UTxO as a `UtxoRef` parameter. The transaction reads `oracle_data.value` and embeds it into its own output datum without ever modifying the oracle. The same pattern works for any well-known reference UTxO — protocol parameters, registry entries, configuration records.

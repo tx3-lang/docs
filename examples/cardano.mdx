@@ -158,32 +158,3 @@ tx publish_native(
 ```
 
 `cardano::publish` is in addition to your regular `output` blocks, not a replacement.
-
-## Consulting an oracle via a reference input
-
-The `reference` block is not under the `cardano::` namespace — it is a generic tx-body construct — but reading datums off reference inputs is one of the canonical Cardano patterns, so it earns a place here. Where `input` consumes a UTxO, `reference` reads one without spending it.
-
-```tx3
-party Receiver;
-
-type OracleDatum {
-    value: Int,
-}
-
-tx consume_oracle(oracle_utxo: UtxoRef) {
-    reference oracle_data {
-        ref: oracle_utxo,
-        datum_is: OracleDatum,
-    }
-
-    output {
-        to: Receiver,
-        amount: Ada(0),
-        datum: OracleDatum {
-            value: oracle_data.value,
-        },
-    }
-}
-```
-
-With `datum_is` set, you can read the reference's datum as typed fields (`oracle_data.value`).

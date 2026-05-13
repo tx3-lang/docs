@@ -4,13 +4,14 @@ title: Example Catalog
 
 import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
-This section collects short, working examples of Tx3 transaction templates, grouped by the language feature they exercise. Every snippet on these pages is drawn from the [tx3 reference examples](https://github.com/tx3-lang/tx3/tree/main/examples) and compiles against the current parser.
+This section is organised around things you might be trying to build, not around the language features they happen to use. For the feature reference, see the [Language section](/tx3/language). Every snippet on these pages is drawn from the [tx3 reference examples](https://github.com/tx3-lang/tx3/tree/main/examples) and compiles against the current parser.
 
 <CardGrid>
-  <LinkCard title="Transfers" href="/tx3/examples/transfers">Moving Ada and native assets between parties.</LinkCard>
-  <LinkCard title="Minting & burning" href="/tx3/examples/minting">Creating and destroying tokens, with Plutus and native-script witnesses.</LinkCard>
-  <LinkCard title="Validators & datums" href="/tx3/examples/validators">Locking funds in scripts, reading datums, updating on-chain state.</LinkCard>
-  <LinkCard title="Cardano-specific constructs" href="/tx3/examples/cardano">Withdrawals, treasury donations, governance certificates, reference scripts.</LinkCard>
-  <LinkCard title="Type system & built-ins" href="/tx3/examples/types-and-builtins">Records, variants, lists, maps, environment vars, slot/time helpers.</LinkCard>
+  <LinkCard title="Transfers" href="/tx3/examples/transfers">Send Ada or native assets between parties.</LinkCard>
+  <LinkCard title="Minting & burning" href="/tx3/examples/minting">Create new tokens or destroy existing ones.</LinkCard>
+  <LinkCard title="Vesting & escrow" href="/tx3/examples/vesting">Lock funds in a script and let someone redeem them later under conditions.</LinkCard>
+  <LinkCard title="Swaps & marketplaces" href="/tx3/examples/swaps">Atomically exchange one asset for another.</LinkCard>
+  <LinkCard title="On-chain state & oracles" href="/tx3/examples/state-and-oracles">Maintain state across transactions, or read data from a reference UTxO.</LinkCard>
+  <LinkCard title="Cardano-specific use-cases" href="/tx3/examples/cardano">Stake withdrawals, governance, treasury donations, reference-script publishing.</LinkCard>
   <LinkCard title="All examples on GitHub" href="https://github.com/tx3-lang/tx3/tree/main/examples">Browse the full set of reference examples in the language repo.</LinkCard>
 </CardGrid>
