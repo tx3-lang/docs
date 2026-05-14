@@ -7,19 +7,21 @@ sidebar:
 
 import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
-Tx3 is an interface description format for UTxO blockchain protocols — the OpenAPI of UTxO — plus the tooling to author and consume those interfaces. Authors publish a spec that declares what their protocol exposes; consumers read that spec and generate typed clients to build the transactions it accepts.
+Tx3 is an interface description format for UTxO blockchain protocols, plus the tooling to author and consume those interfaces. Protocol authors define a spec that declares what their protocol exposes; consumers read that spec and generate typed clients to build the transactions it accepts.
 
 ## Two sides of the workflow
 
 The format is one half of the story. The toolchain is the other.
 
-**Authoring.** Protocol authors write a `.tx3` file declaring the parties involved, the assets at stake, the transaction templates a user can invoke, and the rules each one must satisfy. The Tx3 toolchain parses, type-checks, and analyses the file, runs it against a local devnet, and emits a publishable interface artifact (the TII).
+**Authoring.** Protocol authors write a `.tx3` file declaring the parties involved, the assets at stake, the transaction templates a user can invoke, and the rules each one must satisfy. The Tx3 toolchain parses, type-checks, and analyses the file, and emits a publishable interface artifact (the TII).
 
-**Consuming.** Application developers point at a `.tx3` source or its compiled intermediate representation (the TIR) and get typed SDKs in TypeScript, Rust, Go, and Python. At runtime, the SDKs speak the Transaction Resolver Protocol (TRP) to a backend that materialises each transaction, signs it, submits it, and waits for inclusion.
+**Consuming.** Application developers point at a compiled interface (the `.tii` file) and get typed SDKs in TypeScript, Rust, Go, and Python. At runtime, the SDKs speak the Transaction Resolver Protocol (TRP) to a backend that turns the invocation into an un-signed transaction.
 
 ## Why UTxO protocols need this
 
-In account-based chains, a contract has an explicit ABI: function signatures describe how to interact with it, and consumers can build against them directly. UTxO chains are different. A dApp is a set of validators that accept or reject transactions; nothing in the chain tells you which UTxOs to spend, which datums to attach, which redeemers to supply, which scripts to witness. That knowledge usually lives in the protocol author's head, or in a hand-written SDK that consumers have to reverse-engineer.
+EVM contracts publish an ABI: a machine-readable description of the functions a consumer can call, the arguments each takes, and what each returns. With the ABI in hand, anyone can build a working client. Web APIs solve the same problem at a different layer with OpenAPI — same idea, same payoff: the interface is data, not lore.
+
+UTxO chains have nothing equivalent. A dApp is a set of validators that accept or reject transactions; nothing in the chain tells you which UTxOs to spend, which datums to attach, which redeemers to supply, which scripts to witness. That knowledge usually lives in the protocol author's head, or in a hand-written SDK that consumers have to reverse-engineer.
 
 Tx3 makes that knowledge a first-class, machine-readable artifact: the protocol's interface, written down.
 
@@ -30,12 +32,6 @@ Tx3 makes that knowledge a first-class, machine-readable artifact: the protocol'
 - An interface artifact (TII) and an intermediate representation (TIR) that downstream tools consume.
 - A codegen framework that produces strongly-typed clients in TypeScript, Rust, Go, and Python.
 - The Transaction Resolver Protocol (TRP) — a wire protocol that backends speak to materialise, sign, and submit transactions described by a TIR.
-
-## Where the OpenAPI analogy ends
-
-OpenAPI describes the shape of an HTTP call; constructing the call itself is trivial. On a UTxO chain, constructing the transaction is the hard part — UTxO selection, balancing, witnessing, fee estimation, change handling. Tx3's codegen isn't typed request/response stubs; it's a working transaction builder. The spec is also the executable.
-
-This is also why Tx3 treats UTxO-specific concepts — inputs, outputs, datums, redeemers, mint and burn — as first-class citizens in the source format, rather than hiding them behind a chain-agnostic abstraction. The transactions Tx3 generates are the transactions consumers send to the chain.
 
 ## Not a smart contract language
 
