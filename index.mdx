@@ -5,38 +5,41 @@ sidebar:
   order: 1
 ---
 
-import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
-Tx3 is a toolkit for authoring and interacting with UTxO protocols. Think of "UTxO Protocol" as the API to your dApp. The best analogy we have is to think of Tx3 as the "Open API" for blockchain.
+Tx3 is an interface description format for UTxO blockchain protocols — the OpenAPI of UTxO — plus the tooling to author and consume those interfaces. Authors publish a spec that declares what their protocol exposes; consumers read that spec and generate typed clients to build the transactions it accepts.
 
-## Rationale
+## Two sides of the workflow
 
-In account-based blockchains, dapps are primarily defined by smart contracts with explicit function interfaces that represent user interactions and state mutations. These dapps have a clear API surface that can be used by different parties to interact with its business logic.
+The format is one half of the story. The toolchain is the other.
 
-The deterministic nature of the UTxO approach is a great property, but it has a drawback: the interface of a dapp is not explicit, there's nothing describing how the different parties can interact with it. Dapps are defined by transaction patterns that represent deterministic "state transitions". A party interacting with an UTxO-based dapp has to understand the underlying business logic in order to construct transactions representing their intents.
+**Authoring.** Protocol authors write a `.tx3` file declaring the parties involved, the assets at stake, the transaction templates a user can invoke, and the rules each one must satisfy. The Tx3 toolchain parses, type-checks, and analyses the file, runs it against a local devnet, and emits a publishable interface artifact (the TII).
 
-This is why we need a strict but flexible mechanism to describe patterns of transactions (which we'll call transaction templates) that dapp authors can use to convey the interface of their dapp and dapp consumers can use to interact with it.
+**Consuming.** Application developers point at a `.tx3` source or its compiled intermediate representation (the TIR) and get typed SDKs in TypeScript, Rust, Go, and Python. At runtime, the SDKs speak the Transaction Resolver Protocol (TRP) to a backend that materialises each transaction, signs it, submits it, and waits for inclusion.
 
-## Scope
+## Why UTxO protocols need this
 
-- a DSL (Domain Specific Language) to describe the interface of your UTxO protocol.
-- a runtime for interacting with UTxO protocols through the use of these interface definitions.
-- a codegen framework for creating strongly-typed clients for UTxO protocols.
-- a set of tools for authoring, testing and managing UTxO protocols.
+In account-based chains, a contract has an explicit ABI: function signatures describe how to interact with it, and consumers can build against them directly. UTxO chains are different. A dApp is a set of validators that accept or reject transactions; nothing in the chain tells you which UTxOs to spend, which datums to attach, which redeemers to supply, which scripts to witness. That knowledge usually lives in the protocol author's head, or in a hand-written SDK that consumers have to reverse-engineer.
 
-## Out of Scope
+Tx3 makes that knowledge a first-class, machine-readable artifact: the protocol's interface, written down.
 
-Tx3 is NOT meant to be a smart contract language, the idea if for devs to continue building on-chain validators using their favorite languages, we love [Aiken](https://aiken-lang.org/) ♥️.
+## What's in the toolkit
 
-Tx3 is meant to complement existing languages and tools, not replace them. It positions itself at a higher level of abstraction, describing how user interact interact with validators by constructing the required transactions off-chain.
+- A declarative source format (`.tx3`) for describing the interface of a UTxO protocol.
+- The `trix` CLI — package manager, build system, local devnet, and test runner.
+- An interface artifact (TII) and an intermediate representation (TIR) that downstream tools consume.
+- A codegen framework that produces strongly-typed clients in TypeScript, Rust, Go, and Python.
+- The Transaction Resolver Protocol (TRP) — a wire protocol that backends speak to materialise, sign, and submit transactions described by a TIR.
 
-## The Language
+## Where the OpenAPI analogy ends
 
-Tx3 is a DSL (Domain Specific Language) for describing the interface of UTxO blockchain protocols using a declarative style and basic functional expressions. It allows you to describe user intents in the form of transaction templates that abstract away the transaction building process as high-level function calls.
+OpenAPI describes the shape of an HTTP call; constructing the call itself is trivial. On a UTxO chain, constructing the transaction is the hard part — UTxO selection, balancing, witnessing, fee estimation, change handling. Tx3's codegen isn't typed request/response stubs; it's a working transaction builder. The spec is also the executable.
 
-The language's narrow focus allows it to be highly opinionated and tightly integrated with core UTxO blockchain concepts. Instead of abstracting away blockchain-specific details, Tx3 embraces them - concepts fundamental to UTxO blockchains like inputs, outputs, datums, and redeemers are treated as first-class citizens in the language. This deep integration enables more natural and expressive ways to work with these concepts.
+This is also why Tx3 treats UTxO-specific concepts — inputs, outputs, datums, redeemers, mint and burn — as first-class citizens in the source format, rather than hiding them behind a chain-agnostic abstraction. The transactions Tx3 generates are the transactions consumers send to the chain.
 
-A key concept in Tx3 is the distinction between concrete transactions and transaction templates. While a transaction represents a specific state transition, a template is a function - it defines a pattern that can generate many different concrete transactions based on parameters provided at runtime. This parameterization is what makes templates so powerful for defining reusable transaction patterns.
+## Not a smart contract language
+
+Tx3 does not replace on-chain validators. Write those in your favourite language for the job — we love [Aiken](https://aiken-lang.org/) ♥️. Tx3 sits at a higher level of abstraction, describing how off-chain code interacts with on-chain validators by constructing the transactions they accept.
 
 ## Learning Tx3
 
