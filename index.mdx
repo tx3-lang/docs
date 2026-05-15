@@ -25,14 +25,11 @@ The same spec serves two audiences: the protocol author who publishes it, and th
 
 The docs are organised around the two audiences. Start with the side that matches what you're trying to do.
 
-**Authoring.** Protocol authors write a `.tx3` file declaring the parties involved, the assets at stake, the transaction templates a user can invoke, and the rules each one must satisfy. The Tx3 toolchain parses, type-checks, and analyses the file, and emits a publishable interface artifact (the TII).
-
-<LinkCard title="Authoring Protocols" href="/tx3/authoring">Write `.tx3` files describing the transactions your protocol exposes — language guide, examples, devnet, testing.</LinkCard>
-
-**Consuming.** Application developers point at a compiled interface (the `.tii` file) and get typed SDKs in TypeScript, Rust, Go, and Python. At runtime, the SDKs speak the Transaction Resolver Protocol (TRP) to a backend that turns the invocation into an un-signed transaction.
-
-<LinkCard title="Consuming Protocols" href="/tx3/consuming">Generate a typed client from a published `.tii` and integrate it into your application — codegen, SDK references.</LinkCard>
-
+<CardGrid>
+    <LinkCard icon="pencil" title="Authoring Protocols" href="/tx3/authoring" description="Write `.tx3` files describing the transactions your protocol exposes" />
+    <LinkCard icon="puzzle" title="Consuming Protocols" href="/tx3/consuming" description="Generate a typed client from a published `.tii` and integrate it into your application" />
+</CardGrid>
+  
 Either way, start with [Installation](/tx3/installation) to get the toolchain on your machine.
 
 ## What's in the toolkit
@@ -50,14 +47,14 @@ Tx3 does not replace on-chain validators. Write those in your favourite language
 ## Reference
 
 <CardGrid>
-  <LinkCard title="Language Guide" href="/tx3/language">Top-level declarations, transaction blocks, types, and expression syntax.</LinkCard>
-  <LinkCard title="Examples" href="/tx3/examples">Worked snippets organised by what you're trying to build.</LinkCard>
-  <LinkCard title="Tooling Reference" href="/tx3/tooling">Install, CLI command surface, editor extension.</LinkCard>
+  <LinkCard title="Language Guide" href="/tx3/language" description="Top-level declarations, transaction blocks, types, and expression syntax." />
+  <LinkCard title="Examples" href="/tx3/examples" description="Worked snippets organised by what you're trying to build." />
+  <LinkCard title="Tooling Reference" href="/tx3/tooling" description="Install, CLI command surface, editor extension." />
 </CardGrid>
 
 ## Advanced Topics
 
 <CardGrid>
-  <LinkCard title="TRP" href="/tx3/advanced/trp">Transaction Resolver Protocol</LinkCard>
-  <LinkCard title="TII" href="/tx3/advanced/tii">Transaction Invocation Interface</LinkCard>
+  <LinkCard title="TRP" href="/tx3/advanced/trp" description="Transaction Resolver Protocol" />
+  <LinkCard title="TII" href="/tx3/advanced/tii" description="Transaction Invocation Interface" />
 </CardGrid>
