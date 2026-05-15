@@ -11,7 +11,7 @@ Tx3 is an interface description format for UTxO blockchain protocols, plus the t
 
 ## Two sides of the workflow
 
-The format is one half of the story. The toolchain is the other.
+The same spec serves two audiences: the protocol author who publishes it, and the application developer who consumes it.
 
 **Authoring.** Protocol authors write a `.tx3` file declaring the parties involved, the assets at stake, the transaction templates a user can invoke, and the rules each one must satisfy. The Tx3 toolchain parses, type-checks, and analyses the file, and emits a publishable interface artifact (the TII).
 
@@ -19,7 +19,9 @@ The format is one half of the story. The toolchain is the other.
 
 ## Why UTxO protocols need this
 
-EVM contracts publish an ABI: a machine-readable description of the functions a consumer can call, the arguments each takes, and what each returns. With the ABI in hand, anyone can build a working client. Web APIs solve the same problem at a different layer with OpenAPI — same idea, same payoff: the interface is data, not lore.
+In Web2, an HTTP API is described with OpenAPI: a machine-readable spec listing every endpoint, the shape of each request, and the shape of each response. With that spec in hand, any consumer can generate a typed client and start calling the API without reading the server's source.
+
+The EVM ecosystem solves the same problem at the contract layer. Every contract publishes an ABI — a machine-readable description of the functions a consumer can call, the arguments each takes, and what each returns. The interface is data, not lore.
 
 UTxO chains have nothing equivalent. A dApp is a set of validators that accept or reject transactions; nothing in the chain tells you which UTxOs to spend, which datums to attach, which redeemers to supply, which scripts to witness. That knowledge usually lives in the protocol author's head, or in a hand-written SDK that consumers have to reverse-engineer.
 
