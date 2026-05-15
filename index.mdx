@@ -1,5 +1,5 @@
 ---
-title: Tx3 Documentation
+title: Tx3 Introduction
 sidebar:
   label: Introduction
   order: 1
@@ -8,6 +8,17 @@ sidebar:
 import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
 Tx3 is an interface description format for UTxO blockchain protocols, plus the tooling to author and consume those interfaces. Protocol authors define a spec that declares what their protocol exposes; consumers read that spec and generate typed clients to build the transactions it accepts.
+
+## Pick your lane
+
+The same spec serves two audiences: the protocol author who publishes it, and the application developer who consumes it. The docs are organised around the two audiences. Start with the side that matches what you're trying to do.
+
+<CardGrid>
+    <LinkCard icon="pencil" title="Authoring Protocols" href="/tx3/authoring" description="Write `.tx3` files describing the transactions your protocol exposes" />
+    <LinkCard icon="puzzle" title="Consuming Protocols" href="/tx3/consuming" description="Generate a typed client from a published `.tii` and integrate it into your application" />
+</CardGrid>
+  
+Either way, start with [Installation](/tx3/installation) to get the toolchain on your machine.
 
 ## Why UTxO protocols need this
 
@@ -18,19 +29,6 @@ The EVM ecosystem solves the same problem at the contract layer. Every contract 
 UTxO chains have nothing equivalent. A dApp is a set of validators that accept or reject transactions; nothing in the chain tells you which UTxOs to spend, which datums to attach, which redeemers to supply, which scripts to witness. That knowledge usually lives in the protocol author's head, or in a hand-written SDK that consumers have to reverse-engineer.
 
 Tx3 makes that knowledge a first-class, machine-readable artifact: the protocol's interface, written down.
-
-## Pick your lane
-
-The same spec serves two audiences: the protocol author who publishes it, and the application developer who consumes it.
-
-The docs are organised around the two audiences. Start with the side that matches what you're trying to do.
-
-<CardGrid>
-    <LinkCard icon="pencil" title="Authoring Protocols" href="/tx3/authoring" description="Write `.tx3` files describing the transactions your protocol exposes" />
-    <LinkCard icon="puzzle" title="Consuming Protocols" href="/tx3/consuming" description="Generate a typed client from a published `.tii` and integrate it into your application" />
-</CardGrid>
-  
-Either way, start with [Installation](/tx3/installation) to get the toolchain on your machine.
 
 ## What's in the toolkit
 
