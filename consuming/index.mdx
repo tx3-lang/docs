@@ -1,0 +1,19 @@
+---
+title: Consuming Protocols
+sidebar:
+  label: Introduction
+  order: 0
+pagefind: false
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+This section is for **application developers** integrating an existing Tx3 protocol. You start from a compiled interface artifact — a `.tii` file — and use it to drive transactions from your application code. The Tx3 toolchain generates a typed client in your language of choice, and at runtime that client speaks the Transaction Resolver Protocol (TRP) to a backend that turns each invocation into an unsigned transaction ready to be signed and submitted.
+
+If instead you're authoring the protocol itself, see [Authoring Protocols](/tx3/authoring).
+
+<CardGrid>
+  <LinkCard title="Quick Start" href="/tx3/consuming/quick-start" description="Generate a TypeScript client from a .tii and submit your first transaction end-to-end." />
+  <LinkCard title="Codegen" href="/tx3/consuming/codegen" description="Run `trix codegen` to produce typed bindings in TypeScript, Rust, Go, or Python." />
+  <LinkCard title="SDKs" href="/tx3/consuming/sdks" description="Walkthrough of the runtime SDK lifecycle (resolve → sign → submit → wait), tabbed across TypeScript, Rust, Go, and Python." />
+</CardGrid>

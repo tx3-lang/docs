@@ -10,18 +10,18 @@ This guide explains how to run the Devnet network for testing purposes.
 
 ## Overview
 
-Devnet is a custom Cardano test network powered by [Dolos](https://docs.txpipe.io/dolos). It allows you to define initial wallet funds, execute transactions, test your Tx3 protocols in an isolated environment, etc. To set up the environment, you must run [tx3up](./tx3up). It launches Dolos using custom genesis files for the Devnet network.
+Devnet is a custom Cardano test network powered by [Dolos](https://docs.txpipe.io/dolos). It allows you to define initial wallet funds, execute transactions, test your Tx3 protocols in an isolated environment, etc. To set up the environment, you must run [tx3up](../tooling/tx3up). It launches Dolos using custom genesis files for the Devnet network.
 
 Devnet is used both for manual testing and automated testing:
 - **Manual testing**: You can start Devnet manually using `trix devnet` and interact with it using `trix invoke` and `trix explore`
 - **Automated testing**: The `trix test` command automatically creates and manages its own Devnet instance to execute test scenarios defined in test configuration files
 
-For information about automated testing with Devnet, see the [Testing Guide](./testing) and the [`trix test` command documentation](./trix#trix-test).
+For information about automated testing with Devnet, see the [Testing Guide](./testing) and the [`trix test` command documentation](../tooling/trix#trix-test).
 
 ## Usage
 
-Before running Devnet manually, use [trix init](./trix#trix-init) to initialize a tx3 project. This will generate a default Devnet configuration in the `trix.toml` file, including default wallets.  
-After initializing the project, run [trix devnet](./trix#trix-devnet) to start the Devnet.
+Before running Devnet manually, use [trix init](../tooling/trix#trix-init) to initialize a tx3 project. This will generate a default Devnet configuration in the `trix.toml` file, including default wallets.  
+After initializing the project, run [trix devnet](../tooling/trix#trix-devnet) to start the Devnet.
 
 ```sh
 trix devnet

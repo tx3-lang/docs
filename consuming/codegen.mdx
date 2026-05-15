@@ -1,0 +1,66 @@
+---
+title: Codegen
+sidebar:
+  order: 2
+---
+
+import { Aside } from "@astrojs/starlight/components"
+
+`trix codegen` reads a Tx3 project and produces typed client code that loads the project's compiled interface (`.tii`) and drives transactions through one of the runtime SDKs. Treat this as the bridge between an authored protocol and a consuming application.
+
+## Supported targets
+
+| Target | Output | Runtime SDK it depends on |
+|---|---|---|
+| `typescript` | ESM module + `.tii` | [`tx3-sdk` on npm](https://www.npmjs.com/package/tx3-sdk) |
+| `rust` | crate sources + `.tii` | [`tx3-sdk` on crates.io](https://crates.io/crates/tx3-sdk) |
+| `go` | Go package + `.tii` | [`github.com/tx3-lang/go-sdk/sdk` on pkg.go.dev](https://pkg.go.dev/github.com/tx3-lang/go-sdk/sdk) |
+| `python` | Python package + `.tii` | [`tx3-sdk` on PyPI](https://pypi.org/project/tx3-sdk/) |
+
+For the runtime API itself, see the [SDKs walkthrough](/tx3/consuming/sdks) — language-agnostic narrative with tabbed snippets per language.
+
+## Configuring bindings
+
+Codegen targets are declared per project in `trix.toml` under `[[bindings]]`. Each entry pins one target language to one output directory:
+
+```toml
+[[bindings]]
+plugin = "typescript"
+output = "./clients/ts"
+
+[[bindings]]
+plugin = "rust"
+output = "./clients/rust"
+```
+
+Running `trix codegen` writes every declared binding in one pass.
+
+## What gets generated
+
+For each binding, codegen emits two things:
+
+1. **The `.tii` artifact** — the compiled interface description. This is the same artifact across every target language; it's what the runtime SDK loads via `Protocol.fromFile(...)` (or the equivalent in your language).
+2. **A typed client module** — a per-language wrapper that exposes one builder method per `tx` declared in your `.tx3`, with strongly-typed argument and return shapes derived from the protocol's type declarations.
+
+The generated client is intended to be **checked into source control** alongside the application that consumes it. Re-run `trix codegen` whenever the underlying `.tx3` changes; treat the output like a lockfile, not a transient build artifact.
+
+## When the consumer lives in another repo
+
+A common pattern: the protocol author publishes only the `.tii` (e.g. as a release artifact, npm package, or hosted URL), and the consuming application generates its client from that file alone, without cloning the whole `.tx3` project.
+
+In that case the consumer doesn't need `trix` — it can load the `.tii` directly through the runtime SDK and skip codegen entirely, paying for it with weaker typing (transactions are addressed by string name and arguments are dynamic). For a fully typed surface, vendor the `.tii` into the consumer repo and run `trix codegen` against it there.
+
+## Framework integrations
+
+For TypeScript projects, build-time plugins generate clients on the fly during your normal bundle/dev cycle, so you don't need to commit generated code:
+
+- [`vite-plugin-tx3`](https://www.npmjs.com/package/vite-plugin-tx3) — Vite plugin
+- [`rollup-plugin-tx3`](https://www.npmjs.com/package/rollup-plugin-tx3) — Rollup plugin
+- [`next-tx3`](https://www.npmjs.com/package/next-tx3) — Next.js integration
+- [`install-tx3-nextjs`](https://www.npmjs.com/package/install-tx3-nextjs) — scaffolder for a Next.js + Tx3 starter
+
+These are additive — they call the same codegen pipeline `trix codegen` invokes, just driven by your bundler.
+
+## Reference
+
+For full CLI flag coverage (output paths, profile selection, watch mode), see the [`trix codegen`](/tx3/tooling/trix#trix-codegen) command reference.

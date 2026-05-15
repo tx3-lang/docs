@@ -39,24 +39,20 @@ Tx3 makes that knowledge a first-class, machine-readable artifact: the protocol'
 
 Tx3 does not replace on-chain validators. Write those in your favourite language for the job — we love [Aiken](https://aiken-lang.org/) ♥️. Tx3 sits at a higher level of abstraction, describing how off-chain code interacts with on-chain validators by constructing the transactions they accept.
 
-## Learning Tx3
+## Pick your lane
 
-If you're interested in learning Tx3, we have a comprehensive guide that covers all the basics you need to get started.
+The docs are organised around the two audiences. Start with the side that matches what you're trying to do.
 
 <CardGrid>
-  <LinkCard title="Installation" href="/tx3/installation">Instructions for installing the Tx3 toolchain</LinkCard>
-  <LinkCard title="Quick Start" href="/tx3/quick-start">Quick start guide and basic concepts</LinkCard>
-  <LinkCard title="The Tx3 Language" href="/tx3/language">Detailed language documentation</LinkCard>
-  <LinkCard title="Example Catalog" href="/tx3/examples">Code examples for different use-cases</LinkCard>
-  <LinkCard title="Integration Guide" href="/tx3/integration">How to use Tx3 in your project</LinkCard>
-  <LinkCard title="Tool Ecosystem" href="/tx3/tooling">Available tools and integrations</LinkCard>
+  <LinkCard title="Authoring Protocols" href="/tx3/authoring">Write `.tx3` files describing the transactions your protocol exposes — language guide, examples, devnet, testing.</LinkCard>
+  <LinkCard title="Consuming Protocols" href="/tx3/consuming">Generate a typed client from a published `.tii` and integrate it into your application — codegen, SDK references.</LinkCard>
 </CardGrid>
 
+Either way, start with [Installation](/tx3/installation) to get the toolchain on your machine.
 
-## Advanced Topics
-
-If you're looking to dive deeper into Tx3, we have a comprehensive guide that covers all the advanced topics you need to know.
+## Tooling and reference
 
 <CardGrid>
-  <LinkCard title="Advanced" href="/tx3/advanced">How Tx3 works under the hood</LinkCard>
+  <LinkCard title="Tooling Reference" href="/tx3/tooling">Install, CLI command surface, editor extension.</LinkCard>
+  <LinkCard title="Advanced" href="/tx3/advanced">The wire-format protocols underneath: TII and TRP.</LinkCard>
 </CardGrid>
