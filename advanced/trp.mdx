@@ -172,11 +172,12 @@ A typical invocation reads the TII once to learn the surface, then makes TRP cal
 
 ## Available backends
 
-To use TRP from an application, you need a server that speaks it. The current production-grade option is:
+To use TRP from an application, you need a server that speaks it. The current production-grade options are:
 
-- **[Dolos](https://docs.txpipe.io/dolos)** — a lightweight Cardano data node that exposes a TRP endpoint out of the box. It's the same engine `trix devnet` uses to run a local ephemeral chain, and it's what hosted endpoints (e.g. Demeter's preview/preprod TRP) run under the hood.
+- **[Dolos](https://docs.txpipe.io/dolos)** — a lightweight Cardano data node that exposes a TRP endpoint out of the box. Run it locally for development (it's the same engine `trix devnet` uses to spin up an ephemeral chain) or self-host it against preview, preprod, or mainnet when you want full control of your stack.
+- **[Demeter](https://demeter.run)** — a managed platform that exposes hosted TRP endpoints for Cardano preview, preprod, and mainnet. Demeter offers a free tier so you can point a client at `https://cardano-preview.trp-m1.demeter.run` (or the preprod/mainnet equivalents) without running any infrastructure yourself; paid tiers raise the rate limits.
 
-If you point a TRP client at `http://localhost:8545` after `trix devnet`, or at a hosted Demeter endpoint like `https://cardano-preview.trp-m1.demeter.run`, you're talking to a Dolos instance.
+Both options speak the same wire protocol, so a Tx3 client written against one works against the other unchanged — the only thing that varies is the endpoint URL and (for Demeter) an API key header.
 
 ## Reference implementation
 
