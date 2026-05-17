@@ -170,9 +170,17 @@ Both accept `includePayload` if you want the CBOR alongside the metadata.
 
 A typical invocation reads the TII once to learn the surface, then makes TRP calls every time it wants to act.
 
+## Available backends
+
+To use TRP from an application, you need a server that speaks it. The current production-grade option is:
+
+- **[Dolos](https://docs.txpipe.io/dolos)** — a lightweight Cardano data node that exposes a TRP endpoint out of the box. It's the same engine `trix devnet` uses to run a local ephemeral chain, and it's what hosted endpoints (e.g. Demeter's preview/preprod TRP) run under the hood.
+
+If you point a TRP client at `http://localhost:8545` after `trix devnet`, or at a hosted Demeter endpoint like `https://cardano-preview.trp-m1.demeter.run`, you're talking to a Dolos instance.
+
 ## Reference implementation
 
-The canonical client is the [`tx3-resolver`](https://github.com/tx3-lang/tx3/tree/main/crates/tx3-resolver) Rust crate in `tx3-lang/tx3`. The language SDKs (`tx3-sdk` for TypeScript, Rust, Go, Python) all wrap a TRP client of their own; if you're building a backend, `tx3-resolver` is the reference for what a conforming consumer expects on the wire.
+The canonical *client* is the [`tx3-resolver`](https://github.com/tx3-lang/tx3/tree/main/crates/tx3-resolver) Rust crate in `tx3-lang/tx3`. The language SDKs (`tx3-sdk` for TypeScript, Rust, Go, Python) all wrap a TRP client of their own; if you're building a new backend, `tx3-resolver` is the reference for what a conforming consumer expects on the wire.
 
 ## Spec & source
 
