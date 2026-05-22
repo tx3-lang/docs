@@ -47,6 +47,7 @@ Main commands:
 *   `trix invoke`: Invoke a transaction using CShell.
 *   `trix devnet`: Start a local development network.
 *   `trix explore`: Explore a network using CShell.
+*   `trix use`: Add a published protocol as an interface.
 *   `trix codegen`: Generate code to interact with your protocol.
 *   `trix check`: Check a Tx3 package and its dependencies for errors.
 *   `trix inspect`: Inspect the intermediate representation of a transaction
@@ -115,9 +116,33 @@ Usage:
 trix explore
 ```
 
+### `trix use`
+
+Add a published protocol to the project as an *interface* — a dependency you can generate a client for with `trix codegen`. The protocol is pulled from the registry, its compiled interface is cached locally, and a pinned entry is written to the `[interfaces]` table of `trix.toml`.
+
+Usage:
+
+```sh
+trix use <REFERENCE> [OPTIONS]
+```
+
+**Arguments:**
+
+- `<REFERENCE>`: Reference to pull, e.g. `acme/widget:0.1.0`. The version is optional and defaults to the `latest` tag; the resolved concrete version is pinned in `trix.toml`.
+
+**Options:**
+
+- `--alias <NAME>`: Local alias for this interface. Defaults to the reference's name.
+- `--force`: Replace an existing entry with the same alias.
+- `--dry-run`: Resolve and cache the artifact but do not modify `trix.toml`.
+
+Protocols resolve against the default registry (`https://oci.tx3.land`) unless `trix.toml` declares a `[registry]` section with a different `url`.
+
 ### `trix codegen`
 
 Generate code that can interact with your protocol by interpreting the interfaces defined by your Tx3 project. Code is generated from templates that use handlebars and can target multiple languages, including TypeScript, Rust, Go, and Python.
+
+Targets are declared in `trix.toml` under `[[codegen]]` entries, each pairing a `plugin` (`ts-client`, `rust-client`, `go-client`, or `python-client`) with an optional `output_dir`. A client is generated for the project's own protocol and for every interface added with `trix use`.
 
 Usage:
 
