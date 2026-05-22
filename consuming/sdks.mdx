@@ -6,9 +6,11 @@ sidebar:
 
 import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
-A Tx3 SDK is the runtime library your application uses to consume a Tx3 protocol. It loads a compiled `.tii`, binds parties and signers, and drives the four-stage transaction lifecycle through a TRP server: `resolve → sign → submit → wait`.
+A Tx3 SDK is the runtime library your application uses to consume a Tx3 protocol. It provides the TRP transport, party and signer bindings, and the four-stage transaction lifecycle: `resolve → sign → submit → wait`.
 
-The conceptual surface is identical across every supported language; only the syntax differs. For a step-by-step walkthrough of that lifecycle in your language of choice, see the [Quick Start](/tx3/consuming/quick-start).
+A client produced by [`trix codegen`](/tx3/consuming/codegen) is a thin typed layer on top of this SDK — it delegates to the SDK for everything but the typed transaction methods. You can also use the SDK directly without codegen; see [Dynamic Usage](/tx3/consuming/dynamic-usage).
+
+The conceptual surface is identical across every supported language; only the syntax differs. For a step-by-step walkthrough in your language of choice, see the [Quick Start](/tx3/consuming/quick-start).
 
 This page is a directory: each supported language, where its source lives, and where to install it from.
 
