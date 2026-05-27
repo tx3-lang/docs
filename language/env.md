@@ -65,6 +65,22 @@ tx mint_from_env(
 
 Here `mint_script` and `mint_policy` are typed env values; the parser checks that `mint_script` has type `UtxoRef` wherever a `UtxoRef` is required, and that `mint_policy` has type `Bytes` wherever a policy id is expected.
 
+## Documenting env fields
+
+Prefix any field with a `///` doc-comment to describe what value belongs there. The description follows the field through to the registry UI and generated bindings, which helps integrators fill in profiles correctly:
+
+```tx3
+env {
+    /// Cardano network magic identifier.
+    network: Int,
+
+    /// UTxO that hosts the minting script's reference output.
+    mint_script: UtxoRef,
+}
+```
+
+See [Comments](./comments) for the full rules.
+
 ## How env values get supplied
 
 The Tx3 language only declares the shape of the environment. The concrete values are supplied by the toolchain — typically by `trix` from a profile-specific env file. See the project guide for how to wire env values per network.
