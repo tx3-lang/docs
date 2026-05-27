@@ -54,6 +54,20 @@ tx transfer(
 }
 ```
 
+## Documenting a party
+
+Prefix a party declaration with a `///` doc-comment to describe its role. The description is carried through to the registry UI and generated bindings:
+
+```tx3
+/// The user initiating the transaction.
+party Sender;
+
+/// Protocol treasury — receives fees and dust.
+party Treasury;
+```
+
+See [Comments](./comments) for the full rules.
+
 ## Parties vs. policies
 
 When the address that controls a UTxO is itself a script, declare it as a [`policy`](./policies) rather than a party. A `party` is the right tool for an actor whose address you don't yet know; a `policy` is the right tool for a script whose hash or witness you do.

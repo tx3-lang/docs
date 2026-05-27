@@ -44,3 +44,9 @@ The core declaration in a Tx3 file is a `tx`: a parameterised template that the 
 A few constructs only make sense on one chain. Cardano-specific blocks live under the `cardano::` namespace — `cardano::withdrawal`, `cardano::plutus_witness`, `cardano::publish`, certificate blocks, and so on.
 
 <LinkCard title="Cardano Features" href="language/cardano" description="Stake operations, witnesses, treasury donations, reference-script publishing" />
+
+## Documenting your protocol
+
+Doc-comments (`///`) attach to a `party`, an `env` field, a `tx`, or a tx parameter and travel with the protocol all the way to the registry UI and generated bindings.
+
+<LinkCard title="Comments" href="language/comments" description="Line, block, and doc-comments — and where doc-comments end up" />

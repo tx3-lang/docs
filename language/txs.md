@@ -44,6 +44,23 @@ tx transfer(
 
 Two identifiers are pre-bound inside every `tx` body: `Ada` (the chain's primary asset, used as a constructor) and `fees` (the resolved transaction fee, an `AnyAsset` value).
 
+## Documenting a tx and its parameters
+
+Prefix the `tx` keyword — or any parameter inside the parameter list — with a `///` doc-comment to describe what the transaction does and what each parameter means. The descriptions are surfaced in the registry UI and in generated bindings:
+
+```tx3
+/// Transfer lovelace from the sender to the receiver.
+/// Any change is returned to the sender.
+tx transfer(
+    /// Amount to transfer, in lovelace.
+    quantity: Int,
+) {
+    // ...
+}
+```
+
+Multiple consecutive `///` lines are joined with line breaks. See [Comments](./comments) for the full rules.
+
 ## `input` — a UTxO to consume
 
 ```tx3
