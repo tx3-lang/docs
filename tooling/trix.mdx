@@ -120,6 +120,8 @@ trix explore
 
 Add a published protocol to the project as an *interface* — a dependency you can generate a client for with `trix codegen`. The protocol is pulled from the registry, its compiled interface is cached locally, and a pinned entry is written to the `[interfaces]` table of `trix.toml`.
 
+If no `trix.toml` is found in the current directory or any ancestor, `trix use` bootstraps a minimal consumer-shape project (a `trix.toml` with no `main.tx3`, no tests, no owner scope) and pins the interface into it. Pass `--no-init` to opt out — useful in CI where a missing project should fail loudly.
+
 Usage:
 
 ```sh
@@ -135,6 +137,7 @@ trix use <REFERENCE> [OPTIONS]
 - `--alias <NAME>`: Local alias for this interface. Defaults to the reference's name.
 - `--force`: Replace an existing entry with the same alias.
 - `--dry-run`: Resolve and cache the artifact but do not modify `trix.toml`.
+- `--no-init`: Refuse to auto-bootstrap a project when no `trix.toml` is found; error instead.
 
 Protocols resolve against the default registry (`https://oci.tx3.land`) unless `trix.toml` declares a `[registry]` section with a different `url`.
 
@@ -142,13 +145,20 @@ Protocols resolve against the default registry (`https://oci.tx3.land`) unless `
 
 Generate code that can interact with your protocol by interpreting the interfaces defined by your Tx3 project. Code is generated from templates that use handlebars and can target multiple languages, including TypeScript, Rust, Go, and Python.
 
-Targets are declared in `trix.toml` under `[[codegen]]` entries, each pairing a `plugin` (`ts-client`, `rust-client`, `go-client`, or `python-client`) with an optional `output_dir`. A client is generated for the project's own protocol and for every interface added with `trix use`.
+Targets live in `trix.toml` under `[[codegen]]` entries, each pairing a `plugin` (`ts-client`, `rust-client`, `go-client`, or `python-client`) with an optional `output_dir`. `trix codegen` is the canonical way to add the first target: passing `--plugin <name>` appends a matching `[[codegen]]` entry to `trix.toml` (if one does not already exist) and then generates. Hand-editing `trix.toml` remains supported — useful for custom plugins or a bespoke `output_dir`. A client is generated for the project's own protocol and for every interface added with `trix use`.
+
+If no targets are configured and `--plugin` is not passed, `trix codegen` prompts interactively when run from a terminal. In non-interactive contexts it errors and points at `--plugin`.
 
 Usage:
 
 ```sh
-trix codegen
+trix codegen [OPTIONS]
 ```
+
+**Options:**
+
+- `--plugin <NAME>`: Seed a `[[codegen]]` entry for this plugin (`ts-client` / `rust-client` / `go-client` / `python-client`) if one does not already exist, then generate. Unknown values fail with a suggestion before any codegen runs.
+- `--no-save`: Generate without persisting a newly-seeded `[[codegen]]` entry back to `trix.toml`. Intended for CI / scripted one-offs.
 
 ### `trix check`
 
