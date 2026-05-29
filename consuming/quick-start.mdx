@@ -10,7 +10,7 @@ This guide walks through consuming an existing Tx3 protocol from your applicatio
 
 We're assuming you already have:
 
-- A Tx3 project — a directory with a `trix.toml`. `trix codegen` runs inside a project, so if you don't have one yet, run `trix init` to scaffold it.
+- An empty directory to work in. `trix use` bootstraps a minimal consumer-shape `trix.toml` automatically when none is found; if you're already inside an existing Tx3 project it pins into that one instead. (Authors who want the full project skeleton with `main.tx3` and tests still use `trix init`.)
 - A TRP server reachable from your machine. The simplest setup is `trix devnet`, which exposes a local TRP endpoint at `http://localhost:8164`; for testnet/mainnet, point at a hosted TRP endpoint (Demeter, Blockfrost-via-TRP, etc.).
 - The toolchain for your target language installed (Node.js 18+, Rust 1.78+, Go 1.22+, or Python 3.10+).
 
@@ -40,50 +40,36 @@ The `digest` locks the exact artifact, so every machine and CI run generates a c
 Protocols resolve against the default registry (`https://oci.tx3.land`). To use a different one, add a `[registry]` section with a `url` to `trix.toml`.
 </Aside>
 
-## Configure codegen
+## Generate the client
 
-Add a `[[codegen]]` entry to `trix.toml` for each target language. `plugin` selects the language; `output_dir` is where generated code is written — it's optional and defaults to `.tx3/codegen/<plugin>/`. Declare more than one entry to target multiple languages from the same project.
+Pick a language and let `trix codegen` add the matching `[[codegen]]` entry to `trix.toml` on first run, then generate:
 
 <Tabs syncKey="lang">
   <TabItem label="TypeScript">
-    ```toml
-    [[codegen]]
-    plugin = "ts-client"
-    output_dir = "src/gen"
+    ```sh
+    trix codegen --plugin ts-client
     ```
   </TabItem>
   <TabItem label="Rust">
-    ```toml
-    [[codegen]]
-    plugin = "rust-client"
-    output_dir = "src/gen"
+    ```sh
+    trix codegen --plugin rust-client
     ```
   </TabItem>
   <TabItem label="Go">
-    ```toml
-    [[codegen]]
-    plugin = "go-client"
-    output_dir = "gen"
+    ```sh
+    trix codegen --plugin go-client
     ```
   </TabItem>
   <TabItem label="Python">
-    ```toml
-    [[codegen]]
-    plugin = "python-client"
-    output_dir = "gen"
+    ```sh
+    trix codegen --plugin python-client
     ```
   </TabItem>
 </Tabs>
 
-## Generate the client
+Subsequent runs can drop the flag — bare `trix codegen` re-emits every configured target. To customize where output lands, edit the `output_dir` on the `[[codegen]]` entry in `trix.toml` (it defaults to `.tx3/codegen/<plugin>/`). Add a second `--plugin` invocation to target multiple languages from one project.
 
-From the project root, run:
-
-```sh
-trix codegen
-```
-
-This writes one typed module per protocol under `output_dir`: your own project lands in `<output_dir>/<project-name>/`, and each interface added with `trix use` lands in `<output_dir>/<alias>/` — so the `transfer` interface above is generated into `src/gen/transfer/`. Each module embeds the compiled interface (transactions, parties, profiles) and exposes one typed method per `tx` the protocol declares.
+This writes one typed module per protocol under `output_dir`: your own project lands in `<output_dir>/<project-name>/`, and each interface added with `trix use` lands in `<output_dir>/<alias>/` — so the `transfer` interface above is generated into `.tx3/codegen/ts-client/transfer/` (or wherever you set `output_dir`). Each module embeds the compiled interface (transactions, parties, profiles), exposes one typed method per `tx` the protocol declares, and ships a `README.md` with the language-specific install instructions.
 
 Re-run `trix codegen` whenever you `trix use` a new version of an interface. The generated code is meant to be checked into source control alongside your application — treat it like a lockfile, not a build artifact.
 
