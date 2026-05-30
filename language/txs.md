@@ -1,7 +1,7 @@
 ---
 title: Transactions
 sidebar:
-    order: 7
+    order: 8
 ---
 
 A `tx` declares a transaction *template*: a parameterised description of a transaction that the toolchain resolves into a concrete, balanced, ready-to-submit transaction at the moment of use. The body of a `tx` is a collection of blocks — inputs, outputs, mints, witnesses, metadata, and so on — that together describe what the transaction must contain.
