@@ -137,12 +137,12 @@ Accessing a property that does not exist on the value's static type is a compile
 
 ## Built-in functions
 
-These functions are always in scope.
+These functions are always in scope. They use the same call syntax as [user-defined functions](./functions), and share the same namespace.
 
 | Call                      | Returns    | Notes                                                                                  |
 | ------------------------- | ---------- | -------------------------------------------------------------------------------------- |
 | `min_utxo(output_name)`   | `AnyAsset` | Minimum Ada the named output needs to satisfy the chain's min-UTxO rule.               |
-| `tip_slot()`              | `Int`      | The chain tip slot at resolution time. May also be written as the bare identifier `tip_slot`. |
+| `tip_slot()`              | `Int`      | The chain tip slot at resolution time.                                                 |
 | `slot_to_time(slot)`      | `Int`      | Converts a slot number to a POSIX time.                                                |
 | `time_to_slot(time)`      | `Int`      | Converts a POSIX time to a slot number.                                                |
 | `concat(a, b)`            | same as `a`| Concatenates two `Bytes` values or two `List<T>` values; both arguments must have the same type. |

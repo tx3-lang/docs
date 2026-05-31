@@ -2,7 +2,7 @@
 title: Cardano-specific Features
 sidebar:
   label: Cardano
-  order: 8
+  order: 9
 ---
 
 Most of the Tx3 language is chain-agnostic, but some transaction features are specific to one chain. On Cardano those features live under the `cardano::` namespace: stake operations, witnesses for script-using actions, reference-script publishing, treasury donations, and so on.

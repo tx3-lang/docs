@@ -1,7 +1,7 @@
 ---
 title: Comments
 sidebar:
-    order: 9
+    order: 10
 ---
 
 Tx3 has three kinds of comments: regular line comments, block comments, and doc-comments. The first two are stripped during parsing and have no effect beyond letting you annotate the source. Doc-comments are different — they are preserved and surfaced by downstream tooling (the registry UI, generated bindings, etc.).

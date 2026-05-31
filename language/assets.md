@@ -1,7 +1,7 @@
 ---
 title: Assets
 sidebar:
-    order: 6
+    order: 7
 ---
 
 A UTxO carries value: a bag of `(policy, asset_name, amount)` triples. Tx3 surfaces this with the `AnyAsset` type and a small set of conveniences that make it easy to talk about quantities of specific assets without writing the policy and asset name out at every use.
