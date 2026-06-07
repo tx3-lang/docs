@@ -164,6 +164,8 @@ reference <name> {
 
 `ref` is required. If `datum_is` is present, the reference's datum can be read via property access on the name.
 
+A `reference` block is also how you attach a **reference script** explicitly — point `ref` at the UTxO that carries the script when you are not using a [ref-backed policy](./policies) (for example, spending from a plain address whose validator's script lives at a known UTxO). When a ref-backed policy *is* used, its reference input is added for you and a separate block is unnecessary. Reference inputs are deduplicated, so an explicit block that names the same UTxO as a policy ref is harmless.
+
 ```tx3
 party Receiver;
 
