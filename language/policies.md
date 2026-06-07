@@ -36,9 +36,11 @@ All three fields are optional, but at least one must be present:
 | -------- | --------------------------------------------------------- |
 | `hash`   | The policy's script hash.                                 |
 | `script` | The serialized script bytes, to be attached inline.       |
-| `ref`    | A reference identifying where the script can be read from. |
+| `ref`    | The UTxO where the script lives as a reference script.    |
 
 The exact way `script` and `ref` are interpreted is chain-specific — see [Cardano features](./cardano) for the witness and reference-script blocks that consume them.
+
+When a policy carries a `ref`, that UTxO is attached automatically — see [Pairing a policy with a witness](#pairing-a-policy-with-a-witness) below.
 
 ## Using a policy
 
@@ -86,4 +88,34 @@ tx lock(
 
 ## Pairing a policy with a witness
 
-When the policy is a script that must be witnessed by the transaction (for example a Plutus minting policy or a script spend), the policy declaration alone is not enough — you also need to attach the script (or a reference to it) to the transaction. That is done with one of the `cardano::*_witness` blocks; see [Cardano features](./cardano).
+When the policy is a script that must run in the transaction (for example a Plutus minting policy or a script spend), the chain needs the script itself, not just its hash. There are two ways to supply it, and which one you use depends on how the policy was declared.
+
+### Reference scripts (the `ref` field) — automatic
+
+If the policy declares a `ref`, the script already lives on-chain at that UTxO. Whenever you use such a policy in a position that requires its script — as the `from` of an input, or as the policy of a `mint` / `burn` — Tx3 automatically adds that `ref` UTxO to the transaction's reference inputs. You do **not** need a separate `reference` block for it; the same `ref` used by several inputs or blocks is attached only once.
+
+```tx3
+policy Vault {
+    hash: 0x6b9c456aa650cb808a9ab54326e039d5235ed69f069c9664a8fe5b69,
+    ref:  0xANCHORTXHASH#0,
+}
+
+tx withdraw(quantity: Int) {
+    input locked {
+        from: Vault,            // Vault's `ref` UTxO is added as a reference input
+        min_amount: Ada(quantity),
+        redeemer: (),
+    }
+
+    output {
+        to: Vault,
+        amount: locked - Ada(quantity) - fees,
+    }
+}
+```
+
+A policy declared by hash only contributes no reference input — there is nothing to point at.
+
+### Inline scripts — explicit
+
+If the script is not published on-chain, it must be carried inline. The policy declaration alone is not enough; attach the bytes with one of the `cardano::*_witness` blocks. See [Cardano features](./cardano).

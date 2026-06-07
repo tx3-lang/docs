@@ -75,7 +75,7 @@ input <name> {
 
 Every field is optional individually, but the block must give the resolver *something* to find a UTxO with: at least one of `from` or `ref` must be present.
 
-- `from` is a [party](./parties) or [policy](./policies), or any address-like expression. It constrains *who* controls the UTxO.
+- `from` is a [party](./parties) or [policy](./policies), or any address-like expression. It constrains *who* controls the UTxO. If `from` is a policy that carries a `ref`, that reference-script UTxO is added to the transaction's reference inputs automatically.
 - `ref` pins the input to one specific UTxO.
 - `datum_is` declares the expected datum type so that property access on the input name (`source.field`) is typed.
 - `min_amount` is a lower bound — the resolver may find a UTxO with more value than required.
@@ -164,6 +164,8 @@ reference <name> {
 
 `ref` is required. If `datum_is` is present, the reference's datum can be read via property access on the name.
 
+A `reference` block is also how you attach a **reference script** explicitly — point `ref` at the UTxO that carries the script when you are not using a [ref-backed policy](./policies) (for example, spending from a plain address whose validator's script lives at a known UTxO). When a ref-backed policy *is* used, its reference input is added for you and a separate block is unnecessary. Reference inputs are deduplicated, so an explicit block that names the same UTxO as a policy ref is harmless.
+
 ```tx3
 party Receiver;
 
@@ -203,7 +205,7 @@ burn {
 }
 ```
 
-`amount` is required; `redeemer` is optional and only meaningful when the minting policy is a script. Both blocks may appear multiple times in the same transaction.
+`amount` is required; `redeemer` is optional and only meaningful when the minting policy is a script. Both blocks may appear multiple times in the same transaction. If the minted or burned asset's policy carries a `ref`, that reference-script UTxO is added to the transaction's reference inputs automatically.
 
 ```tx3
 mint {
