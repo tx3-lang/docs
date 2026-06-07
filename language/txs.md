@@ -75,7 +75,7 @@ input <name> {
 
 Every field is optional individually, but the block must give the resolver *something* to find a UTxO with: at least one of `from` or `ref` must be present.
 
-- `from` is a [party](./parties) or [policy](./policies), or any address-like expression. It constrains *who* controls the UTxO.
+- `from` is a [party](./parties) or [policy](./policies), or any address-like expression. It constrains *who* controls the UTxO. If `from` is a policy that carries a `ref`, that reference-script UTxO is added to the transaction's reference inputs automatically.
 - `ref` pins the input to one specific UTxO.
 - `datum_is` declares the expected datum type so that property access on the input name (`source.field`) is typed.
 - `min_amount` is a lower bound — the resolver may find a UTxO with more value than required.
@@ -203,7 +203,7 @@ burn {
 }
 ```
 
-`amount` is required; `redeemer` is optional and only meaningful when the minting policy is a script. Both blocks may appear multiple times in the same transaction.
+`amount` is required; `redeemer` is optional and only meaningful when the minting policy is a script. Both blocks may appear multiple times in the same transaction. If the minted or burned asset's policy carries a `ref`, that reference-script UTxO is added to the transaction's reference inputs automatically.
 
 ```tx3
 mint {
