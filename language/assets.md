@@ -84,6 +84,15 @@ Conceptually each operand is a bag of `(policy, asset_name, amount)` entries; ad
 
 The value attached to an input or reference participates in the same arithmetic: `source - Ada(quantity) - fees` makes sense because `source` is an asset value.
 
+## Scaling
+
+Multiplying an `AnyAsset` by an `Int` scales every entry's amount. The `Int` may be on either side, and `*` binds tighter than `+` and `-`:
+
+```tx3
+StaticAsset(50) * quantity
+Ada(2000000) + StaticAsset(1) * count
+```
+
 ## Reading asset components
 
 An `AnyAsset` exposes three properties:
