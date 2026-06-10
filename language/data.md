@@ -47,6 +47,7 @@ The operator surface is small.
 | `expr.identifier` | Property access. Available on records, variant struct cases, `AnyAsset`, and `UtxoRef`. |
 | `expr[expr]`      | List indexing. The index expression must have type `Int`.                               |
 | `!expr`           | Arithmetic negation. Applies to `Int`.                                                  |
+| `a * b`           | Multiplication. `Int * Int` multiplies integers; `AnyAsset * Int` (and `Int * AnyAsset`) scales asset quantities. |
 | `a + b`           | Addition. `Int + Int` adds integers; `AnyAsset + AnyAsset` aggregates asset values.     |
 | `a - b`           | Subtraction. Same shapes as `+`.                                                        |
 
@@ -54,9 +55,10 @@ Precedence, from tightest to loosest:
 
 1. Postfix `.` and `[…]`.
 2. Prefix `!`.
-3. Infix `+` and `-`.
+3. Infix `*`.
+4. Infix `+` and `-`.
 
-Parentheses override precedence. There are no comparison, logical, multiplication, division, or ternary operators in this version of the language.
+Parentheses override precedence. There are no comparison, logical, division, or ternary operators in this version of the language.
 
 ## Constructors
 
