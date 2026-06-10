@@ -93,6 +93,12 @@ StaticAsset(50) * quantity
 Ada(2000000) + StaticAsset(1) * count
 ```
 
+Dividing an `AnyAsset` by an `Int` scales every entry's amount down by integer division (truncating toward zero — remainders are dropped). The divisor must be on the right (`AnyAsset / Int`), and `/` shares precedence with `*`:
+
+```tx3
+total_pot / participants
+```
+
 ## Reading asset components
 
 An `AnyAsset` exposes three properties:
