@@ -48,6 +48,7 @@ The operator surface is small.
 | `expr[expr]`      | List indexing. The index expression must have type `Int`.                               |
 | `!expr`           | Arithmetic negation. Applies to `Int`.                                                  |
 | `a * b`           | Multiplication. `Int * Int` multiplies integers; `AnyAsset * Int` (and `Int * AnyAsset`) scales asset quantities. |
+| `a / b`           | Integer division, truncating toward zero (`7 / 2` is `3`). `Int / Int` divides integers; `AnyAsset / Int` divides each asset quantity. Does not commute (`Int / AnyAsset` is invalid). Dividing by `0` is an error. |
 | `a + b`           | Addition. `Int + Int` adds integers; `AnyAsset + AnyAsset` aggregates asset values.     |
 | `a - b`           | Subtraction. Same shapes as `+`.                                                        |
 
@@ -55,10 +56,12 @@ Precedence, from tightest to loosest:
 
 1. Postfix `.` and `[…]`.
 2. Prefix `!`.
-3. Infix `*`.
+3. Infix `*` and `/`.
 4. Infix `+` and `-`.
 
-Parentheses override precedence. There are no comparison, logical, division, or ternary operators in this version of the language.
+Parentheses override precedence. There are no comparison, logical, modulo, or ternary operators in this version of the language.
+
+> **`/` and comments:** `//` starts a line comment and `/*` starts a block comment, so write division with a single slash (`a / b`). The token sequence `a//b` is parsed as `a` followed by a comment, not as division.
 
 ## Constructors
 
