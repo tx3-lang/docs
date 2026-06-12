@@ -52,6 +52,35 @@ type Datum {
 }
 ```
 
+### Tuples
+
+`Tuple<T1, T2, ...>` is a fixed-arity, positionally-typed group of values. Unlike a `List`, each position can have a different type; unlike a record, the positions are unnamed. A tuple always has **two or more** elements.
+
+```tx3
+type Datum {
+    pair: Tuple<Int, Bytes>,
+    triple: Tuple<Int, Bytes, Bool>,
+}
+```
+
+You build a tuple by writing two or more comma-separated expressions in parentheses; the element types are taken positionally:
+
+```tx3
+(42, 0xDEADBEEF)         // Tuple<Int, Bytes>
+(quantity, name, true)   // Tuple<Int, Bytes, Bool>
+```
+
+`(e)` (a single parenthesized expression) is just grouping, and `()` is the unit value — neither is a tuple, which is why tuples start at two elements.
+
+Read an element back by **positional index**, using the same bracket syntax as a list:
+
+```tx3
+pair[0]   // the Int
+pair[1]   // the Bytes
+```
+
+The index must be an integer literal within range — a tuple cannot be indexed by a runtime value, since each position may have a different type, and an out-of-range index is a compile error.
+
 ## User-defined types
 
 User-defined types are introduced with the `type` keyword. There are three shapes.
@@ -139,6 +168,6 @@ Cyclic aliases (`type A = B; type B = A;`) are rejected.
 
 ## Type equivalence
 
-Two types are equivalent if they are the same primitive, the same `List<T>` (with equivalent `T`), the same `Map<K, V>` (with equivalent `K` and `V`), or refer to the same user-defined type after alias chasing.
+Two types are equivalent if they are the same primitive, the same `List<T>` (with equivalent `T`), the same `Map<K, V>` (with equivalent `K` and `V`), the same `Tuple<...>` (same arity, with each position's type equivalent), or refer to the same user-defined type after alias chasing. Tuple equivalence is structural and order- and arity-sensitive: `Tuple<Int, Bytes>` and `Tuple<Bytes, Int>` are different types, and neither equals `Tuple<Int, Bytes, Bool>`.
 
 There are no implicit conversions. `Int` does not silently turn into `Bytes`, and `Bytes` does not silently turn into `Address`, `UtxoRef`, or `AnyAsset`. Where a position expects a specific type, the expression must already have that type.

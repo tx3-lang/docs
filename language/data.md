@@ -45,7 +45,7 @@ The operator surface is small.
 | Form              | Meaning                                                                                 |
 | ----------------- | --------------------------------------------------------------------------------------- |
 | `expr.identifier` | Property access. Available on records, variant struct cases, `AnyAsset`, and `UtxoRef`. |
-| `expr[expr]`      | List indexing. The index expression must have type `Int`.                               |
+| `expr[expr]`      | Indexing. For a `List<T>` the index is any `Int` expression; for a `Tuple<...>` the index must be an integer literal in range, and the result type is that position's type. |
 | `!expr`           | Arithmetic negation. Applies to `Int`.                                                  |
 | `a * b`           | Multiplication. `Int * Int` multiplies integers; `AnyAsset * Int` (and `Int * AnyAsset`) scales asset quantities. |
 | `a / b`           | Integer division, truncating toward zero (`7 / 2` is `3`). `Int / Int` divides integers; `AnyAsset / Int` divides each asset quantity. Does not commute (`Int / AnyAsset` is invalid). Dividing by `0` is an error. |
@@ -115,16 +115,21 @@ MyRecord {
 
 Fields written explicitly take precedence; remaining fields are taken from `source`.
 
-### Lists and maps
+### Lists, maps, and tuples
 
 ```tx3
 [1, 2, 3]            // List<Int>
 []                   // empty list — type from context
 
 {1: "Value1", 2: "Value2"}   // Map<Int, Bytes>
+
+(1, 0xFF)            // Tuple<Int, Bytes>
+(1, 0xFF, true)      // Tuple<Int, Bytes, Bool>
 ```
 
 A `Map` literal must contain at least one entry; the first entry fixes the key and value types.
+
+A tuple literal is two or more comma-separated expressions in parentheses, and its element types are taken positionally. `(e)` is grouping (not a one-tuple) and `()` is the unit value. Read an element back with a literal index — `pair[0]`, `pair[1]` — exactly like list indexing. See [Tuples](./types#tuples).
 
 ## Property access
 
